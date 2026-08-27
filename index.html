@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Betterson — What you actually get as an Anderson student</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Black&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#000729;
+    --blue-mid:#205F94;
+    --blue-bright:#007DB7;
+    --gold:#FDE403;
+    --red-orange:#F64A01;
+    --green:#6DA691;
+    --off-white:#EDEFF0;
+
+    --ink:#0A1330;
+    --ink-soft:#4A5570;
+    --rule:rgba(10,19,48,.12);
+    --radius-tile:24px;
+    --radius-card:20px;
+    --maxw:1200px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--off-white);
+    background:var(--navy-deep);
+    background-image:linear-gradient(105deg,var(--blue-mid) 0%,#0B2A50 34%,var(--navy-deep) 62%);
+    background-attachment:fixed;
+    min-height:100vh;
+    font-size:16px;
+    line-height:1.55;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{padding:56px 0 8px}
+  .eyebrow{
+    font-family:Archivo,sans-serif;font-weight:700;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 14px
+  }
+  h1{
+    font-family:"Archivo Black",Archivo,sans-serif;
+    font-size:clamp(44px,7vw,84px);
+    line-height:.95;letter-spacing:-.02em;
+    margin:0 0 18px;color:#fff
+  }
+  .lede{
+    max-width:56ch;font-size:clamp(17px,2vw,20px);
+    color:rgba(237,239,240,.78);margin:0 0 6px
+  }
+  .lede strong{color:#fff;font-weight:600}
+
+  /* ---------- category tiles (signature) ---------- */
+  .tiles{
+    display:grid;gap:14px;margin:40px 0 8px;
+    grid-template-columns:repeat(5,1fr);
+  }
+  .tile{
+    border:0;cursor:pointer;text-align:left;
+    border-radius:var(--radius-tile);
+    padding:22px 20px 20px;
+    min-height:132px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    font-family:Archivo,sans-serif;
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    box-shadow:0 10px 24px rgba(0,7,41,.34);
+    position:relative;
+  }
+  .tile:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(0,7,41,.45)}
+  .tile:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .tile .t-name{font-weight:700;font-size:22px;line-height:1.1;letter-spacing:-.01em}
+  .tile .t-count{font-weight:600;font-size:13px;opacity:.72;margin-top:6px}
+  .tile[data-key="all"]{background:var(--off-white);color:var(--ink)}
+  .tile[data-key="Dining"]{background:var(--gold);color:var(--navy-deep)}
+  .tile[data-key="Shopping"]{background:var(--red-orange);color:#fff}
+  .tile[data-key="Experience"]{background:var(--blue-bright);color:#fff}
+  .tile[data-key="Transportation"]{background:var(--green);color:#08251B}
+  .tile[aria-pressed="true"]::after{
+    content:"";position:absolute;inset:-4px;border-radius:calc(var(--radius-tile) + 4px);
+    border:3px solid #fff;pointer-events:none
+  }
+  .tile[aria-pressed="false"]{filter:saturate(.55) brightness(.8)}
+
+  /* ---------- controls ---------- */
+  .controls{
+    margin:34px 0 0;padding:22px 24px;
+    background:rgba(237,239,240,.07);
+    border:1px solid rgba(237,239,240,.14);
+    border-radius:var(--radius-card);
+    backdrop-filter:blur(6px);
+  }
+  .searchrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .search{
+    flex:1 1 300px;position:relative
+  }
+  .search input{
+    width:100%;padding:14px 16px 14px 44px;border-radius:12px;
+    border:1px solid rgba(237,239,240,.25);
+    background:rgba(0,7,41,.42);color:#fff;
+    font-family:inherit;font-size:16px
+  }
+  .search input::placeholder{color:rgba(237,239,240,.5)}
+  .search input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+  .search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.55}
+
+  .filtergroups{display:flex;flex-wrap:wrap;gap:22px;margin-top:20px}
+  .fg{min-width:0}
+  .fg h3{
+    font-family:Archivo,sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(237,239,240,.55);margin:0 0 9px
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{
+    border:1px solid rgba(237,239,240,.28);
+    background:transparent;color:rgba(237,239,240,.85);
+    padding:7px 13px;border-radius:999px;cursor:pointer;
+    font-family:inherit;font-size:13.5px;font-weight:600;
+    transition:background .14s ease,color .14s ease,border-color .14s ease
+  }
+  .chip:hover{border-color:rgba(237,239,240,.6)}
+  .chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--navy-deep)}
+  .chip.dur[aria-pressed="true"][data-val="Ongoing"]{background:var(--green);border-color:var(--green);color:#08251B}
+  .chip.dur[aria-pressed="true"][data-val="Limited"]{background:var(--red-orange);border-color:var(--red-orange);color:#fff}
+
+  .resultbar{
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:16px;flex-wrap:wrap;margin:34px 0 16px
+  }
+  .count{font-family:Archivo,sans-serif;font-weight:600;font-size:15px;color:rgba(237,239,240,.72)}
+  .count b{color:#fff;font-size:20px}
+  .reset{
+    background:none;border:0;color:var(--gold);cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:14px;
+    text-decoration:underline;text-underline-offset:3px;padding:4px
+  }
+  .reset:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ---------- cards ---------- */
+  .grid{
+    display:grid;gap:16px;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    padding-bottom:8px
+  }
+  .card{
+    background:var(--off-white);color:var(--ink);
+    border-radius:var(--radius-card);
+    padding:20px 20px 16px;
+    text-align:left;border:0;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;gap:10px;
+    box-shadow:0 8px 20px rgba(0,7,41,.26);
+    transition:transform .16s ease, box-shadow .16s ease;
+    border-top:5px solid var(--cat,var(--blue-bright));
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 16px 30px rgba(0,7,41,.4)}
+  .card:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .card .provider{
+    font-family:Archivo,sans-serif;font-size:11.5px;font-weight:700;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft)
+  }
+  .card .title{
+    font-family:Archivo,sans-serif;font-weight:700;font-size:19px;
+    line-height:1.24;letter-spacing:-.01em;margin:0
+  }
+  .card .value{
+    font-size:15px;color:var(--ink);font-weight:600;
+    padding:9px 12px;background:rgba(0,125,183,.09);
+    border-radius:10px;border-left:3px solid var(--cat,var(--blue-bright))
+  }
+  .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+  .tag{
+    font-size:11.5px;font-weight:700;font-family:Archivo,sans-serif;
+    letter-spacing:.04em;padding:4px 9px;border-radius:6px;
+    background:rgba(10,19,48,.08);color:var(--ink-soft)
+  }
+  .tag.dur-Ongoing{background:rgba(109,166,145,.24);color:#2E5B4B}
+  .tag.dur-Limited{background:rgba(246,74,1,.15);color:#A32E00}
+  .tag.elig{background:rgba(0,125,183,.14);color:#0A4E70}
+  .verified{
+    font-size:12px;color:var(--ink-soft);
+    border-top:1px solid var(--rule);padding-top:9px;margin-top:2px
+  }
+  .card.todo{background:repeating-linear-gradient(135deg,#E4E7EA,#E4E7EA 10px,#DCE0E4 10px,#DCE0E4 20px)}
+  .card.todo .title{color:var(--ink-soft)}
+
+  /* ---------- empty ---------- */
+  .empty{
+    text-align:center;padding:64px 24px;
+    border:1px dashed rgba(237,239,240,.28);border-radius:var(--radius-card)
+  }
+  .empty h3{font-family:Archivo,sans-serif;color:#fff;margin:0 0 8px;font-size:20px}
+  .empty p{color:rgba(237,239,240,.7);margin:0}
+
+  /* ---------- modal ---------- */
+  dialog{
+    border:0;padding:0;background:transparent;max-width:640px;width:calc(100% - 32px)
+  }
+  dialog::backdrop{background:rgba(0,7,41,.72);backdrop-filter:blur(3px)}
+  .sheet{
+    background:var(--off-white);color:var(--ink);
+    border-radius:var(--radius-card);padding:28px;
+    border-top:6px solid var(--cat,var(--blue-bright))
+  }
+  .sheet .provider{
+    font-family:Archivo,sans-serif;font-size:11.5px;font-weight:700;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft)
+  }
+  .sheet h2{
+    font-family:"Archivo Black",Archivo,sans-serif;font-size:27px;
+    line-height:1.14;letter-spacing:-.02em;margin:8px 0 14px
+  }
+  .sheet .value{
+    font-size:17px;font-weight:600;padding:13px 15px;
+    background:rgba(0,125,183,.09);border-radius:12px;
+    border-left:4px solid var(--cat,var(--blue-bright));margin-bottom:16px
+  }
+  .kv{display:grid;grid-template-columns:132px 1fr;gap:9px 16px;font-size:14.5px;margin-bottom:18px}
+  .kv dt{font-family:Archivo,sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);padding-top:3px}
+  .kv dd{margin:0}
+  .sheet .note{font-size:14.5px;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:14px;margin:0 0 18px}
+  .sheetfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .btn{
+    font-family:Archivo,sans-serif;font-weight:700;font-size:14.5px;
+    padding:11px 18px;border-radius:11px;border:0;cursor:pointer;text-decoration:none;
+    display:inline-block
+  }
+  .btn-primary{background:var(--blue-bright);color:#fff}
+  .btn-primary:hover{background:#0069A0}
+  .btn-ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--rule)}
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+  footer{
+    margin-top:56px;padding:26px 0 44px;
+    border-top:1px solid rgba(237,239,240,.14);
+    font-size:13.5px;color:rgba(237,239,240,.5)
+  }
+  footer b{color:rgba(237,239,240,.8);font-weight:600}
+
+  @media (max-width:900px){
+    .tiles{grid-template-columns:repeat(2,1fr)}
+    .tile[data-key="all"]{grid-column:1 / -1;min-height:92px}
+    .kv{grid-template-columns:1fr;gap:3px 0}
+    .kv dd{margin-bottom:9px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">UCLA Anderson · Build-a-thon demo</p>
+    <h1>Betterson</h1>
+    <p class="lede">Everything you already get as an Anderson student — and didn't know about. <strong>One page, every benefit, with the date we last checked it.</strong></p>
+  </header>
+
+  <nav class="tiles" id="tiles" aria-label="Filter by category"></nav>
+
+  <section class="controls" aria-label="Filters">
+    <div class="searchrow">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+        <input id="q" type="search" placeholder="Search benefits, places, providers…" aria-label="Search benefits">
+      </div>
+    </div>
+
+    <div class="filtergroups">
+      <div class="fg">
+        <h3>Who you are</h3>
+        <div class="chips" id="f-elig"></div>
+      </div>
+      <div class="fg">
+        <h3>How long it lasts</h3>
+        <div class="chips" id="f-dur"></div>
+      </div>
+      <div class="fg">
+        <h3>Where</h3>
+        <div class="chips" id="f-loc"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="resultbar">
+    <p class="count" id="count"></p>
+    <button class="reset" id="reset" type="button">Clear all filters</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>
+    <h3>Nothing matches those filters yet.</h3>
+    <p>Try clearing one — or tell the team what's missing so we can add it.</p>
+  </div>
+
+  <footer>
+    <p><b>Demo build.</b> Every listing links to its source so you can check it. Values drift — confirm before you rely on one. Anderson-tier entries are still being sourced internally.</p>
+  </footer>
+</div>
+
+<dialog id="sheet"><div class="sheet" id="sheetBody"></div></dialog>
+
+<script>
+const CATS = ["Dining","Shopping","Experience","Transportation"];
+const CATCOLOR = {Dining:"#FDE403",Shopping:"#F64A01",Experience:"#007DB7",Transportation:"#6DA691"};
+const ELIGS = ["Anderson","All UCLA","Grad student","Any student ID","LA resident","CA resident"];
+const LOCS = ["On campus","Off campus","Virtual"];
+const DURS = ["Ongoing","Limited"];
+
+const DATA = [
+ // ---------- TRANSPORTATION ----------
+ {t:"Bruin Grad Pass",p:"UCLA Transportation",c:"Transportation",v:"$25 per quarter for unlimited Big Blue Bus, Culver CityBus, and LA Metro bus and rail",e:"Grad student",d:"Ongoing",loc:"Off campus",r:"Register on UCLA's transit portal, pick up at the Central Ticket Office",u:"https://www.bigbluebus.com/fares/college-discounts.aspx",vd:"2026-08-25",n:"Assessed as a student fee. Excludes summer. Probably the highest-value single item in this catalog for a full-time student."},
+ {t:"BruinGO! quarterly pass",p:"UCLA Transportation",c:"Transportation",v:"$45 per quarter, unlimited Big Blue Bus and Culver CityBus",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Buy online or at the Central Ticket Office",u:"https://www.bigbluebus.com/fares/college-discounts.aspx",vd:"2026-08-25",n:"Faculty and staff pay $55. Covers an entire academic quarter."},
+ {t:"UCLA Co-Pay Pass on TAP",p:"UCLA Transportation",c:"Transportation",v:"Discounted per-ride Big Blue Bus fare for occasional riders",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Loaded onto your TAP card by UCLA Transportation, online or at the CTO",u:"https://www.bigbluebus.com/fares/college-discounts.aspx",vd:"2026-08-25",n:"You need stored value on the TAP card before the co-pay works. Better than BruinGO if you ride rarely."},
+ {t:"Long-distance commuter pass",p:"UCLA Transportation",c:"Transportation",v:"One additional commuter line pass — Long Beach Transit, LADOT Commuter Express, Santa Clarita, or Antelope Valley",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Register on the transit portal, collect at the Central Ticket Office",u:"https://www.bigbluebus.com/fares/college-discounts.aspx",vd:"2026-08-25",n:"Useful if you commute in from outside the basin."},
+ {t:"BruinBus campus shuttle",p:"UCLA Transportation",c:"Transportation",v:"Free shuttle service around campus",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Just board",u:"https://campusservices.ucla.edu/discounts",vd:"2026-08-25",n:""},
+ {t:"California State Library Parks Pass",p:"California State Parks",c:"Transportation",v:"Free vehicle day-use entry at 200+ California state parks",e:"CA resident",d:"Ongoing",loc:"Off campus",r:"Check the physical pass out from any California public library with your library card",u:"https://www.library.ca.gov/services/to-libraries/parks-pass/faq/",vd:"2026-08-25",n:"Covers one vehicle with up to nine people, or one motorcycle. Not valid at federal, local, or privately operated units. Funding is currently secured through 2026 — treat permanence as provisional."},
+
+ // ---------- EXPERIENCE ----------
+ {t:"Discounted theme park tickets",p:"UCLA Central Ticket Office",c:"Experience",v:"Reduced admission to 13+ parks including Universal Studios, Six Flags Magic Mountain, LEGOLAND, SeaWorld, San Diego Zoo, Catalina Express",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Buy at the CTO window west of the James West Alumni Center, or online",u:"https://tickets.ucla.edu/",vd:"2026-08-25",n:"Seasonal additions appear too — Halloween Horror Nights, Knott's Scary Farm, Big Bear, Raging Waters."},
+ {t:"Discounted movie tickets",p:"UCLA Central Ticket Office",c:"Experience",v:"Reduced-price tickets for AMC, Cinemark, Laemmle, Landmark, Regal and Krikorian",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Buy at the CTO or online",u:"https://tickets.ucla.edu/",vd:"2026-08-25",n:""},
+ {t:"UCLA Athletics student tickets",p:"UCLA Central Ticket Office",c:"Experience",v:"Discounted student pricing across 15 of UCLA's 25 ticketed sports",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Buy through the CTO",u:"https://tickets.ucla.edu/",vd:"2026-08-25",n:""},
+ {t:"CAP UCLA performances",p:"Center for the Art of Performance",c:"Experience",v:"Discounted tickets to live performances on campus",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Buy through CAP or the CTO",u:"https://cap.ucla.edu/",vd:"2026-08-25",n:""},
+ {t:"Geffen Playhouse tickets",p:"Geffen Playhouse",c:"Experience",v:"$20 tickets with a BruinCard",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Show your BruinCard",u:"https://summer.ucla.edu/summer-in-westwood/",vd:"2026-08-25",n:"Walking distance from campus in Westwood Village."},
+ {t:"Melnitz Movies free screenings",p:"GSA & ASUCLA Student Interaction Fund",c:"Experience",v:"Free screenings of new, cult and classic films",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Free entry, no ticket needed",u:"https://anderson.ucla.edu/degrees/full-time-mba/culture/living-in-la",vd:"2026-08-25",n:""},
+ {t:"LA Phil Student Insiders",p:"LA Philharmonic",c:"Experience",v:"Discounted tickets at the Hollywood Bowl, Walt Disney Concert Hall and other venues",e:"Any student ID",d:"Ongoing",loc:"Off campus",r:"Join the Student Insiders program with a student email",u:"https://transportation.ucla.edu/blog/hollywood-bowl-park-ride-returns-westwood-student-discount",vd:"2026-08-25",n:""},
+ {t:"Hollywood Bowl Park & Ride from Westwood",p:"UCLA Transportation",c:"Experience",v:"50% off the Park & Ride shuttle with promo code BRUINS",e:"All UCLA",d:"Limited",loc:"Off campus",r:"Book on the Hollywood Bowl site with code BRUINS and your UCLA email",u:"https://transportation.ucla.edu/blog/hollywood-bowl-park-ride-returns-westwood-student-discount",vd:"2026-08-25",exp:"2026-09-30",n:"Runs for select summer performances only. Departs from 11020 Kinross Ave; lot parking $6 after 4pm."},
+ {t:"Discover & Go museum passes",p:"Los Angeles Public Library",c:"Experience",v:"Free or low-cost passes to LA museums and cultural institutions",e:"LA resident",d:"Ongoing",loc:"Off campus",r:"Reserve at lapl.discoverandgo.net with your library card, then print the pass",u:"https://www.lapl.org/explore-la",vd:"2026-08-25",n:"LA residents 18+ with a physical LAPL card in good standing. Zip codes 90000–93599; e-cards are not accepted. Two active reservations at a time, bookable up to three months ahead. New passes release at the start of each month."},
+ {t:"Discover & Go museum passes",p:"LA County Library",c:"Experience",v:"Free passes to Southern California museums and cultural destinations",e:"LA resident",d:"Ongoing",loc:"Off campus",r:"Reserve through the Discover & Go portal with your county library card and PIN",u:"https://lacountylibrary.org/discover/",vd:"2026-08-25",n:"Adults 18+ with a full-access card. Overlaps with the LAPL program but the museum lists differ — worth checking both if you hold either card."},
+ {t:"UCLA Recreation membership",p:"UCLA Recreation",c:"Experience",v:"Access to John Wooden Center facilities — gyms, courts, rock wall, weight room, studios",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Register through UCLA Recreation",u:"https://www.recreation.ucla.edu/join",vd:"2026-08-25",n:""},
+
+ // ---------- DINING ----------
+ {t:"Chipotle U Rewards",p:"Chipotle",c:"Dining",v:"1,000 bonus points at signup and 12 points per $1 instead of the standard 10",e:"Any student ID",d:"Ongoing",loc:"Off campus",r:"Log into Chipotle Rewards, then verify enrollment through ID.me",u:"https://www.chipotle.com/chipotle-u-rewards",vd:"2026-08-25",n:"Points-based rather than a flat percentage off. Student status generally needs re-verifying each year around the start of fall term."},
+ {t:"Chipotle U seasonal drops",p:"Chipotle",c:"Dining",v:"Periodic college-exclusive offers — Rivalry Week BOGO, finals-season and game-day drops",e:"Any student ID",d:"Limited",loc:"Off campus",r:"Automatic once you're enrolled in Chipotle U Rewards",u:"https://ir.chipotle.com/2025-11-10-CHIPOTLE-LAUNCHES-CHIPOTLE-U-RIVALRY-WEEK-TO-REWARD-TOP-10-COLLEGE-TOWNS-WITH-FREE-CHIPOTLE",vd:"2026-08-25",exp:"2026-12-31",n:"Dates move year to year. Re-check each quarter."},
+ {t:"Quarterly ASUCLA coupon sheet",p:"ASUCLA",c:"Dining",v:"~18 offers redeemable on campus and at partnering Westwood businesses",e:"All UCLA",d:"Limited",loc:"On campus",r:"Pick up a printed sheet outside the UCLA Store at Ackerman",u:"https://www.asucla.ucla.edu/pressreleases/asucla-welcomes-ucla-students-back-to-campus-with-fall-savings",vd:"2026-08-25",exp:"2026-12-31",n:"Released at the start of each quarter with a short redemption window. Confirm current dates."},
+ {t:"ASUCLA Meal Voucher Program",p:"ASUCLA",c:"Dining",v:"Meal vouchers for students in need",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Apply through ASUCLA",u:"https://www.asucla.ucla.edu",vd:"2026-08-25",n:""},
+ {t:"Emergency meal vouchers",p:"Economic Crisis Response Team",c:"Dining",v:"Free meal vouchers for students facing financial hardship",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Request through the ECRT or Bruin Resource Center",u:"https://internationalcenter.ucla.edu/resources/budgeting",vd:"2026-08-25",n:"Eligibility generally requires living off campus without a meal plan."},
+ {t:"Free groceries at CPO",p:"Community Programs Office",c:"Dining",v:"Free groceries, no eligibility requirements",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Pick up at the Community Programs Office",u:"https://internationalcenter.ucla.edu/resources/budgeting",vd:"2026-08-25",n:"No requirements, so take only what you need."},
+ {t:"Café 580 free meals",p:"Café 580",c:"Dining",v:"Free hot meals, food and internet access",e:"All UCLA",d:"Ongoing",loc:"Off campus",r:"Walk in — 580 Hilgard Avenue",u:"https://internationalcenter.ucla.edu/resources/budgeting",vd:"2026-08-25",n:""},
+
+ // ---------- SHOPPING ----------
+ {t:"Apple education pricing",p:"UCLA Computer Store",c:"Shopping",v:"Education pricing on Macs, iPads and accessories, plus discounted AppleCare+",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"In person at Ackerman Union B-Level, or online",u:"https://www.asucla.ucla.edu/ucla/apple-educator-discounts",vd:"2026-08-25",n:"Purchases can go on your BruinBill account, and eligible financial aid can be applied to tech purchases."},
+ {t:"Education pricing on tech",p:"UCLA Store",c:"Shopping",v:"Discounted pricing on computers, tablets and accessories",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Shop in store or at uclastore.com/tech",u:"https://www.uclastore.com/tech",vd:"2026-08-25",n:""},
+ {t:"Software Central",p:"UCLA IT",c:"Shopping",v:"Discounted and free licensed software for UCLA affiliates",e:"All UCLA",d:"Ongoing",loc:"Virtual",r:"Sign in with your UCLA logon",u:"http://www.softwarecentral.ucla.edu/",vd:"2026-08-25",n:""},
+ {t:"Free software through CLICC",p:"UCLA Library",c:"Shopping",v:"Free access to licensed software with your UCLA logon",e:"All UCLA",d:"Ongoing",loc:"Virtual",r:"Log in with your UCLA credentials",u:"https://internationalcenter.ucla.edu/resources/budgeting",vd:"2026-08-25",n:""},
+ {t:"Textbook price match",p:"UCLA Store",c:"Shopping",v:"Refund of the difference if you find the same textbook cheaper elsewhere",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Bring your UCLA Store receipt and proof of the lower price",u:"https://fsc.usac.ucla.edu/?page_id=15",vd:"2026-08-25",n:"Same ISBN and edition, new condition only, must be in stock at the competitor."},
+ {t:"Bruin Rewards",p:"ASUCLA",c:"Shopping",v:"Loyalty program with member-only deals and early access at the UCLA Store",e:"All UCLA",d:"Ongoing",loc:"Virtual",r:"Sign up at uclastore.com",u:"https://www.asucla.ucla.edu/pressreleases/tag/Bruin+Rewards",vd:"2026-08-25",n:""},
+ {t:"250 free pages per quarter",p:"Graduate Student Resource Center",c:"Shopping",v:"250 pages of free printing every quarter",e:"Grad student",d:"Ongoing",loc:"On campus",r:"Print at the GSRC, Student Activities Center B11",u:"https://internationalcenter.ucla.edu/resources/budgeting",vd:"2026-08-25",n:"Registered graduate students only. Resets quarterly."},
+ {t:"10 free pages per day",p:"Student Activities Center Computer Lab",c:"Shopping",v:"10 free printed pages daily",e:"All UCLA",d:"Ongoing",loc:"On campus",r:"Print at SAC Suite 106",u:"https://internationalcenter.ucla.edu/resources/budgeting",vd:"2026-08-25",n:""},
+
+ // ---------- ANDERSON: to be sourced internally ----------
+ {t:"Anderson club member perks",p:"Anderson — needs sourcing",c:"Shopping",v:"To be confirmed by the team",e:"Anderson",d:"Ongoing",loc:"On campus",r:"—",u:"",vd:"",n:"Placeholder. Not sourceable from the public web — someone on the team needs to pull this from Anderson internal channels.",todo:true},
+ {t:"Parker Career Center resources",p:"Anderson — needs sourcing",c:"Experience",v:"To be confirmed by the team",e:"Anderson",d:"Ongoing",loc:"On campus",r:"—",u:"",vd:"",n:"Placeholder. Ask the Parker Center what's free to students that isn't advertised.",todo:true},
+ {t:"Anderson-negotiated vendor rates",p:"Anderson — needs sourcing",c:"Shopping",v:"To be confirmed by the team",e:"Anderson",d:"Ongoing",loc:"Off campus",r:"—",u:"",vd:"",n:"Placeholder. These are the entries no competing site could ever have — worth the sourcing effort.",todo:true}
+];
+
+const state = {cat:"all", q:"", elig:new Set(), dur:new Set(), loc:new Set()};
+
+/* ---------- URL sync ---------- */
+function readURL(){
+  const p = new URLSearchParams(location.search);
+  if(p.get("cat")) state.cat = p.get("cat");
+  if(p.get("q")) state.q = p.get("q");
+  ["elig","dur","loc"].forEach(k=>{
+    const v = p.get(k);
+    if(v) v.split("|").filter(Boolean).forEach(x=>state[k].add(x));
+  });
+}
+function writeURL(){
+  const p = new URLSearchParams();
+  if(state.cat!=="all") p.set("cat",state.cat);
+  if(state.q) p.set("q",state.q);
+  ["elig","dur","loc"].forEach(k=>{ if(state[k].size) p.set(k,[...state[k]].join("|")); });
+  const qs = p.toString();
+  history.replaceState(null,"",qs ? "?"+qs : location.pathname);
+}
+
+/* ---------- filtering ---------- */
+function matches(d){
+  if(state.cat!=="all" && d.c!==state.cat) return false;
+  if(state.elig.size && !state.elig.has(d.e)) return false;
+  if(state.dur.size && !state.dur.has(d.d)) return false;
+  if(state.loc.size && !state.loc.has(d.loc)) return false;
+  if(state.q){
+    const hay = (d.t+" "+d.p+" "+d.v+" "+d.c+" "+d.e+" "+(d.n||"")).toLowerCase();
+    if(!hay.includes(state.q.toLowerCase())) return false;
+  }
+  const today = new Date().toISOString().slice(0,10);
+  if(d.exp && d.exp < today) return false;   // Limited offers auto-hide when expired
+  return true;
+}
+
+/* ---------- rendering ---------- */
+function fmtDate(s){
+  if(!s) return "Not yet verified";
+  const [y,m,dd] = s.split("-");
+  const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `Verified ${months[+m-1]} ${+dd}, ${y}`;
+}
+
+function renderTiles(){
+  const el = document.getElementById("tiles");
+  const counts = {all:0}; CATS.forEach(c=>counts[c]=0);
+  DATA.forEach(d=>{ counts[d.c]=(counts[d.c]||0)+1; counts.all++; });
+  const items = [{k:"all",label:"Everything"}, ...CATS.map(c=>({k:c,label:c}))];
+  el.innerHTML = items.map(i=>`
+    <button class="tile" data-key="${i.k}" aria-pressed="${state.cat===i.k}">
+      <span class="t-name">${i.label}</span>
+      <span class="t-count">${counts[i.k]||0} benefit${(counts[i.k]||0)===1?"":"s"}</span>
+    </button>`).join("");
+  el.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>{
+    state.cat = (state.cat===b.dataset.key && b.dataset.key!=="all") ? "all" : b.dataset.key;
+    render();
+  }));
+}
+
+function renderChips(id,values,key,cls){
+  const el = document.getElementById(id);
+  el.innerHTML = values.map(v=>
+    `<button class="chip ${cls||""}" data-val="${v}" aria-pressed="${state[key].has(v)}">${v}</button>`
+  ).join("");
+  el.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{
+    const v=b.dataset.val;
+    state[key].has(v) ? state[key].delete(v) : state[key].add(v);
+    render();
+  }));
+}
+
+function renderGrid(){
+  const rows = DATA.filter(matches);
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  document.getElementById("count").innerHTML = `<b>${rows.length}</b> benefit${rows.length===1?"":"s"} you can use`;
+  empty.hidden = rows.length>0;
+  grid.innerHTML = rows.map((d)=>{
+    const i = DATA.indexOf(d);
+    return `<button class="card ${d.todo?"todo":""}" data-i="${i}" style="--cat:${CATCOLOR[d.c]}">
+      <span class="provider">${d.p}</span>
+      <h3 class="title">${d.t}</h3>
+      <span class="value">${d.v}</span>
+      <span class="tagrow">
+        <span class="tag elig">${d.e}</span>
+        <span class="tag dur-${d.d}">${d.d}</span>
+        <span class="tag">${d.loc}</span>
+      </span>
+      <span class="verified">${fmtDate(d.vd)}</span>
+    </button>`;
+  }).join("");
+  grid.querySelectorAll(".card").forEach(b=>b.addEventListener("click",()=>openSheet(+b.dataset.i)));
+}
+
+function openSheet(i){
+  const d = DATA[i];
+  const body = document.getElementById("sheetBody");
+  body.style.setProperty("--cat", CATCOLOR[d.c]);
+  body.innerHTML = `
+    <p class="provider">${d.p}</p>
+    <h2>${d.t}</h2>
+    <p class="value">${d.v}</p>
+    <dl class="kv">
+      <dt>Who</dt><dd>${d.e}</dd>
+      <dt>How to use</dt><dd>${d.r}</dd>
+      <dt>Where</dt><dd>${d.loc}</dd>
+      <dt>How long</dt><dd>${d.d}${d.exp?` · ends ${d.exp}`:""}</dd>
+      <dt>Category</dt><dd>${d.c}</dd>
+    </dl>
+    ${d.n?`<p class="note">${d.n}</p>`:""}
+    <div class="sheetfoot">
+      ${d.u?`<a class="btn btn-primary" href="${d.u}" target="_blank" rel="noopener">Open the source</a>`:""}
+      <button class="btn btn-ghost" id="closeSheet" type="button">Close</button>
+      <span style="font-size:13px;color:var(--ink-soft)">${fmtDate(d.vd)}</span>
+    </div>`;
+  const dlg = document.getElementById("sheet");
+  dlg.showModal();
+  body.querySelector("#closeSheet").addEventListener("click",()=>dlg.close());
+}
+
+function render(){
+  renderTiles();
+  renderChips("f-elig",ELIGS,"elig");
+  renderChips("f-dur",DURS,"dur","dur");
+  renderChips("f-loc",LOCS,"loc");
+  renderGrid();
+  writeURL();
+}
+
+/* ---------- wiring ---------- */
+const qEl = document.getElementById("q");
+qEl.addEventListener("input",()=>{ state.q = qEl.value.trim(); renderGrid(); writeURL(); });
+document.getElementById("reset").addEventListener("click",()=>{
+  state.cat="all"; state.q=""; qEl.value="";
+  state.elig.clear(); state.dur.clear(); state.loc.clear();
+  render(); qEl.focus();
+});
+document.getElementById("sheet").addEventListener("click",e=>{
+  if(e.target.id==="sheet") e.target.close();   // click backdrop to dismiss
+});
+
+readURL();
+qEl.value = state.q;
+render();
+</script>
+</body>
+</html>
