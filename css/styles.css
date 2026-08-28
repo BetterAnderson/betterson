@@ -366,7 +366,7 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 }
 
 /* ---------- content pages (About / Add / For businesses) ---------- */
-.page{padding-bottom:8px;max-width:1020px}
+.page{padding:26px 0 8px;max-width:1020px}
 .section{margin:0 0 52px}
 .section:last-child{margin-bottom:0}
 
@@ -410,16 +410,15 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 }
 .stat span{font-size:14.5px;color:var(--ink-soft);display:block}
 
-/* The one offer we lead with. */
-.feature{
-  background:var(--surface);border:1px solid var(--rule);
-  border-left:5px solid var(--blue-bright);
-  border-radius:var(--radius-card);padding:24px 26px;max-width:64ch
-}
-.feature h2{margin-bottom:10px}
-.feature p{margin-bottom:0}
-
 .minigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+/* The option worth leading with, marked rather than boxed off on its own. */
+.mini.lead{border-color:var(--blue-bright);box-shadow:0 2px 6px rgba(0,125,183,.10)}
+.mini.lead h3{color:var(--blue-bright)}
+/* Only where the grid is known to be three wide: gives the lead card room and
+   stops the seventh card stranding itself on a row of its own. */
+@media (min-width:1024px){
+  .mini.lead{grid-column:span 2}
+}
 .mini{
   background:var(--surface);border:1px solid var(--rule);
   border-radius:16px;padding:16px 18px
