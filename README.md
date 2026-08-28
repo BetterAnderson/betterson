@@ -43,7 +43,14 @@ docs/PRD.md           Full product spec
 - **Anderson-only benefits are thin.** One entry so far. The rest have to be pulled from internal channels rather than the public web, and they are the most valuable content the site could carry.
   web — someone on the team has to pull them from internal channels. This is the
   most valuable missing content.
-- **The Add a benefit form is not built.** The page exists; the form doesn't.
+- **The Add a benefit form works, but submissions go nowhere yet.** Every field
+  validates, the UCLA email domain check is live, and the success state is real —
+  but `submitBenefit()` in `js/form.js` still needs a Supabase call behind it.
+  Nothing is stored today.
+- **Email validation is client-side only.** A production version would have to
+  re-check the domain server-side and send a confirmation email; a check that runs
+  in the browser is trivially bypassed. Submissions are also never auto-published —
+  they land as `status: submitted` for a human to review.
 - **The For businesses contact form is not built**, and the audience statistics
   block is deliberately empty until someone pulls real figures from Anderson's
   published class profile. We're not estimating them.

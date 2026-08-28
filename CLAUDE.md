@@ -25,7 +25,7 @@ The full specification is in `docs/PRD.md`. **Read it before making product deci
 - Plain HTML / CSS / vanilla JS. No framework, no build.
 - Data: `data/benefits.json`, loaded at runtime with `fetch`.
 - Fonts: Archivo + Archivo Black (headings, labels) and Source Sans 3 (body), from Google Fonts.
-- Submission intake: Supabase (Postgres + Storage) for the Add a Benefit form. **Not built yet.**
+- Submission intake: Supabase (Postgres + Storage) for the Add a Benefit form. The form is built and validates; **the storage call is not wired** — see `submitBenefit()` in `js/form.js`.
 - Business inquiries: Formspree for the For Businesses form. **Not built yet.**
 - Hosting: Vercel, auto-deploying from `main`.
 - Maps (future, not now): Leaflet + OpenStreetMap. No Google Maps, no API keys.
@@ -45,10 +45,11 @@ Any static server works. This one also sends no-cache headers, so a CSS or JS ed
 ```
 /index.html            Browse — the catalog
 /about.html            About
-/add.html              Add a benefit — page shell, form not built
+/add.html              Add a benefit — submission form
 /partners.html         For businesses — page shell, form not built
 /css/styles.css        All styles, shared by every page
 /js/app.js             Browse page logic
+/js/form.js            Add a benefit — validation and submission
 /data/benefits.json    The catalog — generated from Airtable
 /img/logos/            Brand logo files — see the README in there
 /scripts/serve.py      Local dev server (no-cache static)
@@ -57,7 +58,7 @@ Any static server works. This one also sends no-cache headers, so a CSS or JS ed
 /.claude/launch.json   Preview server config
 ```
 
-Not written yet, and named in the PRD: `/js/form.js` (form validation and submission) and `/scripts/import.js` (Airtable CSV → benefits.json).
+Not written yet, and named in the PRD: `/scripts/import.js` (Airtable CSV → benefits.json).
 
 ## Design system
 
@@ -91,6 +92,18 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 - Counts are faceted — they respond to the other groups' selections but not to their own, so choosing "Ongoing" doesn't zero out "Limited".
 - Breakpoints: **1024px** (sidebar + multi-column grid above) and **768px** (bottom sheets, single column below).
 - Detail views are a centered modal on desktop and a full-height bottom sheet on phones.
+
+## The submission form
+
+`add.html` + `js/form.js`. Spec is PRD §6.
+
+- Validation runs **on blur and on submit, never on keystroke** — correcting someone mid-word is hostile. Once a field is showing an error it clears as soon as they start fixing it.
+- Errors sit against the field they belong to. Never one generic banner; the line above the button only counts how many fields need attention.
+- "Not sure" is a valid answer for eligibility and duration. Removing that escape doesn't produce better data, it produces confident-looking wrong data.
+- Credit is a required radio with no default, and shows the exact line the listing will carry — *Added by Jane D.* or *Added by a fellow Bruin*.
+- Email must end in `@anderson.ucla.edu`, `@g.ucla.edu` or `@ucla.edu`. Checked with a full-segment match, so `@fake.ucla.edu` and `@ucla.edu.evil.com` are both rejected. Anderson addresses set `trusted: true` for queue sorting.
+- Spam: a honeypot (`#website`) and a 60-second rate limit. A filled honeypot shows the success screen and stores nothing — never tell a bot it failed.
+- **Not wired:** `submitBenefit()` logs and resolves. Replace its body with the Supabase insert; everything else stays. Production also needs the domain re-checked server-side plus a confirmation email — a browser check is trivially bypassed.
 
 ## Data shape
 

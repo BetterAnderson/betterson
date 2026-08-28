@@ -441,6 +441,132 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
   color:var(--on-green);font-weight:700
 }
 
+/* ---------- forms ---------- */
+.form{max-width:60ch}
+.formintro{margin-bottom:34px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.formstep{
+  background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius-card);padding:24px 26px;margin:0 0 20px
+}
+.formstep h2{
+  display:flex;align-items:center;gap:11px;
+  font-size:20px;margin:0 0 20px
+}
+.stepnum{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:999px;
+  background:var(--navy-deep);color:#fff;
+  font-family:Archivo,sans-serif;font-weight:700;font-size:14px
+}
+
+.field{margin:0 0 20px;border:0;padding:0;min-width:0}
+.field:last-child{margin-bottom:0}
+.field > label, .field > legend{
+  display:block;padding:0;
+  font-family:Archivo,sans-serif;font-weight:700;font-size:14.5px;
+  color:var(--navy-deep);margin-bottom:5px
+}
+.hint{
+  display:block;font-size:14px;color:var(--ink-soft);
+  margin:-2px 0 8px;max-width:52ch
+}
+.field input[type=text],
+.field input[type=email],
+.field input[type=url],
+.field input[type=date],
+.field select,
+.field textarea{
+  width:100%;padding:11px 13px;
+  font-family:inherit;font-size:16px;color:var(--ink);
+  background:var(--surface);
+  border:1.5px solid rgba(10,19,48,.22);border-radius:11px
+}
+.field textarea{resize:vertical;min-height:110px;line-height:1.5}
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none;border-color:var(--blue-bright);
+  box-shadow:0 0 0 3px rgba(0,125,183,.18)
+}
+.field input[type=file]{
+  width:100%;font-family:inherit;font-size:14.5px;color:var(--ink-soft)
+}
+.field input[type=file]::file-selector-button{
+  font-family:Archivo,sans-serif;font-weight:700;font-size:14px;
+  padding:9px 14px;margin-right:12px;cursor:pointer;
+  border:1px solid var(--rule);border-radius:10px;
+  background:var(--bg);color:var(--navy-deep)
+}
+
+.row{display:flex;gap:14px;align-items:flex-start}
+.row .field{flex:1 1 auto}
+/* Wide enough that this field's error message doesn't wrap to a sliver. */
+.row .narrow{flex:0 0 150px}
+
+.radios{display:flex;flex-wrap:wrap;gap:8px 18px}
+.radios.stack{flex-direction:column;gap:9px}
+.radios label{
+  display:flex;align-items:center;gap:8px;
+  font-size:16px;color:var(--ink);cursor:pointer;min-height:32px
+}
+.radios input[type=radio]{width:19px;height:19px;accent-color:var(--blue-bright);cursor:pointer}
+
+.subfield{margin:14px 0 0;padding:14px 0 0;border-top:1px solid var(--rule)}
+
+.counter{font-size:13.5px;color:var(--ink-soft);margin:6px 0 0}
+.counter.over{color:var(--on-orange);font-weight:600}
+.creditpreview{
+  font-size:14.5px;color:var(--ink-soft);margin:10px 0 0;
+  padding:9px 12px;background:var(--bg);border-radius:9px
+}
+.creditpreview b{color:var(--navy-deep)}
+
+/* Errors sit against the field they belong to, never in one banner at the top. */
+.fielderr[hidden]{display:none}   /* beats the display:flex below */
+.fielderr{
+  font-size:14px;color:var(--on-orange);font-weight:600;
+  margin:7px 0 0;display:flex;gap:7px;align-items:flex-start
+}
+.fielderr::before{content:"!";flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:17px;height:17px;border-radius:999px;margin-top:1px;
+  background:var(--red-orange);color:#fff;font-size:12px;font-weight:700}
+.field.invalid input, .field.invalid select, .field.invalid textarea{
+  border-color:var(--red-orange)
+}
+.field.invalid input:focus, .field.invalid select:focus, .field.invalid textarea:focus{
+  box-shadow:0 0 0 3px rgba(246,74,1,.16)
+}
+
+.formfoot{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.formfoot .btn{font-size:16px;padding:13px 24px}
+.formnote{font-size:14.5px;color:var(--on-orange);font-weight:600;margin:0}
+
+.success{
+  background:var(--surface);border:1px solid var(--rule);
+  border-left:5px solid var(--green);
+  border-radius:var(--radius-card);padding:26px 28px;max-width:60ch
+}
+.success h2{font-size:23px;margin:0 0 12px}
+.success p{margin:0 0 12px}
+.success dl{
+  display:grid;grid-template-columns:auto 1fr;gap:6px 16px;
+  margin:0 0 18px;font-size:15px
+}
+.success dt{
+  font-family:Archivo,sans-serif;font-weight:700;font-size:11.5px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);padding-top:3px
+}
+.success dd{margin:0;color:var(--ink)}
+.success:focus{outline:none}
+
+@media (max-width:767px){
+  .formstep{padding:20px 18px}
+  .row{flex-direction:column;gap:0}
+  .row .narrow{flex:1 1 auto;width:100%}
+  .formfoot .btn{width:100%;justify-content:center}
+}
+
 /* Honest note where something isn't finished. Product voice, not dev notes. */
 .pending{
   background:var(--surface);border:1px solid var(--rule);

@@ -31,12 +31,173 @@
   </div>
 
   <div class="page">
-    <section class="section">
-      <p class="pull">We check every submission against its source before it goes live — usually within a few days. Nothing gets published automatically.</p>
-      <div class="pending">
-        <p>The submission form is being built right now. Hold onto what you found — we'll want it.</p>
+    <p class="pull formintro">We check every submission against its source before it goes live — usually within a few days. Nothing gets published automatically.</p>
+
+    <form id="benefitForm" class="form" novalidate>
+      <!-- Honeypot. Real people never see this; bots fill everything. -->
+      <div class="hp" aria-hidden="true">
+        <label for="website">Leave this field empty</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
       </div>
-    </section>
+
+      <section class="formstep" aria-labelledby="step1">
+        <h2 id="step1"><span class="stepnum">1</span> The benefit</h2>
+
+        <div class="field">
+          <label for="f-name">Benefit name</label>
+          <input type="text" id="f-name" name="name" autocomplete="off">
+          <p class="fielderr" id="f-name-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-provider">Provider or business</label>
+          <span class="hint">Who actually gives it out — a department, a shop, a brand.</span>
+          <input type="text" id="f-provider" name="provider" autocomplete="off">
+          <p class="fielderr" id="f-provider-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-category">Category</label>
+          <select id="f-category" name="category">
+            <option value="">Choose one</option>
+            <option>Dining</option>
+            <option>Shopping</option>
+            <option>Experience</option>
+            <option>Transportation</option>
+            <option>Social Support</option>
+          </select>
+          <p class="fielderr" id="f-category-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-description">What you get</label>
+          <span class="hint">Under 200 words. What it is, and what it's worth.</span>
+          <textarea id="f-description" name="description" rows="5"></textarea>
+          <p class="counter" id="f-wordcount">0 of 200 words</p>
+          <p class="fielderr" id="f-description-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-eligibility">Who can use it</label>
+          <select id="f-eligibility" name="eligibility">
+            <option value="">Choose one</option>
+            <option>Anderson</option>
+            <option>All UCLA</option>
+            <option>Grad student</option>
+            <option>Any student ID</option>
+            <option>LA resident</option>
+            <option>CA resident</option>
+            <option>Not sure</option>
+          </select>
+          <p class="fielderr" id="f-eligibility-err" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>How long it lasts</legend>
+          <div class="radios">
+            <label><input type="radio" name="duration" value="Ongoing"> Ongoing</label>
+            <label><input type="radio" name="duration" value="Limited"> Limited</label>
+            <label><input type="radio" name="duration" value="Not sure"> Not sure</label>
+          </div>
+          <p class="fielderr" id="f-duration-err" hidden></p>
+
+          <div class="field subfield" id="f-endwrap" hidden>
+            <label for="f-end">When does it end?</label>
+            <input type="date" id="f-end" name="end">
+            <p class="fielderr" id="f-end-err" hidden></p>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-where">Where</label>
+          <select id="f-where" name="where">
+            <option value="">Choose one</option>
+            <option>On campus</option>
+            <option>Off campus</option>
+            <option>Virtual</option>
+          </select>
+          <p class="fielderr" id="f-where-err" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>Have you used this yourself?</legend>
+          <span class="hint">Firsthand beats hearsay — it tells us how hard to dig.</span>
+          <div class="radios stack">
+            <label><input type="radio" name="used" value="Yes, personally"> Yes, personally</label>
+            <label><input type="radio" name="used" value="No, heard about it"> No, heard about it</label>
+            <label><input type="radio" name="used" value="No, saw it advertised"> No, saw it advertised</label>
+          </div>
+          <p class="fielderr" id="f-used-err" hidden></p>
+        </fieldset>
+      </section>
+
+      <section class="formstep" aria-labelledby="step2">
+        <h2 id="step2"><span class="stepnum">2</span> About you</h2>
+
+        <div class="row">
+          <div class="field">
+            <label for="f-first">First name</label>
+            <input type="text" id="f-first" name="first" autocomplete="given-name">
+            <p class="fielderr" id="f-first-err" hidden></p>
+          </div>
+          <div class="field narrow">
+            <label for="f-initial">Last initial</label>
+            <input type="text" id="f-initial" name="initial" maxlength="1" autocomplete="off">
+            <p class="fielderr" id="f-initial-err" hidden></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-email">UCLA email</label>
+          <span class="hint">@anderson.ucla.edu, @g.ucla.edu or @ucla.edu</span>
+          <input type="email" id="f-email" name="email" autocomplete="email">
+          <p class="fielderr" id="f-email-err" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>Credit me on the listing</legend>
+          <span class="hint">Either answer is fine — we just won't guess.</span>
+          <div class="radios">
+            <label><input type="radio" name="credit" value="yes"> Yes, use my name</label>
+            <label><input type="radio" name="credit" value="no"> No, keep me anonymous</label>
+          </div>
+          <p class="creditpreview" id="f-creditpreview" hidden></p>
+          <p class="fielderr" id="f-credit-err" hidden></p>
+        </fieldset>
+      </section>
+
+      <section class="formstep" aria-labelledby="step3">
+        <h2 id="step3">Optional</h2>
+
+        <div class="field">
+          <label for="f-link">Link</label>
+          <span class="hint">Where you found it. This is what we check against.</span>
+          <input type="url" id="f-link" name="link" placeholder="https://" autocomplete="off">
+          <p class="fielderr" id="f-link-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-redeem">How to redeem it</label>
+          <span class="hint">"Show your BruinCard", "use code…", that sort of thing.</span>
+          <input type="text" id="f-redeem" name="redeem" autocomplete="off">
+          <p class="fielderr" id="f-redeem-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-photo">Photo</label>
+          <span class="hint">For something you saw offline — a window sign, a flyer. JPG, PNG or HEIC, up to 10MB.</span>
+          <input type="file" id="f-photo" name="photo" accept="image/jpeg,image/png,image/heic,image/heif">
+          <p class="fielderr" id="f-photo-err" hidden></p>
+        </div>
+      </section>
+
+      <div class="formfoot">
+        <button type="submit" class="btn btn-primary" id="f-submit">Submit benefit</button>
+        <p class="formnote" id="f-formerr" hidden></p>
+      </div>
+    </form>
+
+    <div id="formSuccess" class="success" hidden tabindex="-1"></div>
   </div>
 
   <footer>
@@ -44,5 +205,6 @@
   </footer>
 </div>
 
+<script src="js/form.js"></script>
 </body>
 </html>
