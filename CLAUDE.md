@@ -17,47 +17,78 @@ The full specification is in `docs/PRD.md`. **Read it before making product deci
 
 1. **Never commit secrets.** No API keys, no `.env` files, no Supabase service-role key. The Supabase anon key is safe in client code *only* because Row Level Security is enabled — never disable RLS.
 2. **Never commit student submissions.** Names, emails, and uploaded photos live in Supabase, never in the repo. Only verified, published listings go into `data/benefits.json`, and those contain no submitter contact details.
-3. **Never invent a benefit.** Every listing needs a real, working `source_url`. If it can't be verified against a source, it doesn't go in. A wrong entry costs more than a missing one.
-4. **No build step.** This is plain HTML, CSS, and vanilla JS, deployed as static files. Do not introduce React, a bundler, or a framework without being asked. The absence of a build step is deliberate — it means nothing can break on demo day.
+3. **Never invent a benefit.** Every listing needs a real, working source URL (the `u` field). If it can't be verified against a source, it doesn't go in. A wrong entry costs more than a missing one.
+4. **No build step.** This is plain HTML, CSS, and vanilla JS, deployed as static files. Do not introduce React, a bundler, or a framework without being asked. The absence of a build step is deliberate — it means nothing can break on demo day. (`scripts/serve.py` is a dev convenience, not a build step — it serves the same files that ship.)
 
 ## Stack
 
 - Plain HTML / CSS / vanilla JS. No framework, no build.
 - Data: `data/benefits.json`, loaded at runtime with `fetch`.
-- Submission intake: Supabase (Postgres + Storage) for the Add a Benefit form.
-- Business inquiries: Formspree for the For Businesses form.
+- Fonts: Archivo + Archivo Black (headings, labels) and Source Sans 3 (body), from Google Fonts.
+- Submission intake: Supabase (Postgres + Storage) for the Add a Benefit form. **Not built yet.**
+- Business inquiries: Formspree for the For Businesses form. **Not built yet.**
 - Hosting: Vercel, auto-deploying from `main`.
 - Maps (future, not now): Leaflet + OpenStreetMap. No Google Maps, no API keys.
+
+## Running it
+
+The catalog is fetched at runtime, which browsers block on `file://` — opening `index.html` directly shows an error, not the site. Serve it:
+
+```
+python3 scripts/serve.py        # http://localhost:8000
+```
+
+Any static server works. This one also sends no-cache headers, so a CSS or JS edit shows up on refresh instead of silently doing nothing.
 
 ## Repo layout
 
 ```
 /index.html            Browse — the catalog
 /about.html            About
-/add.html              Add a benefit (submission form)
-/partners.html         For businesses
-/css/styles.css        All styles, shared
+/add.html              Add a benefit — page shell, form not built
+/partners.html         For businesses — page shell, form not built
+/css/styles.css        All styles, shared by every page
 /js/app.js             Browse page logic
-/js/form.js            Form validation and submission
 /data/benefits.json    The catalog — generated from Airtable
-/scripts/import.js     Airtable CSV -> benefits.json
+/scripts/serve.py      Local dev server (no-cache static)
+/README.md             What this is, how to run it, what's stubbed
 /docs/PRD.md           Full product spec
+/.claude/launch.json   Preview server config
 ```
+
+Not written yet, and named in the PRD: `/js/form.js` (form validation and submission) and `/scripts/import.js` (Airtable CSV → benefits.json).
 
 ## Design system
 
-Colors are sampled from UCLA Anderson's site and are fixed. Use the CSS variables, never raw hex:
+The Anderson colors are the brand and don't change. Everything else — neutrals, backgrounds, darkened variants — can be added when there's a reason, as long as it goes in `:root` as a named token first. **Never write a raw hex outside `:root`.** If a color needs to exist, it needs a name and a comment saying what it's for.
 
 ```
---navy-deep:#000729  --blue-mid:#205F94   --blue-bright:#007DB7
+--navy-deep:#000729  --blue-mid:#205F94   --blue-bright:#007DB7    ← Anderson, fixed
 --gold:#FDE403       --red-orange:#F64A01 --green:#6DA691
---off-white:#EDEFF0
+--off-white:#EDEFF0  ← currently unused; --sand replaced it as the page ground
+
+--sand:#F7F2EB       ← warm page background. Not an Anderson color; a deliberate
+                       team choice over --off-white, which read grey and dated.
+--blue-press --on-blue --on-green --on-orange --gold-edge
+                     ← darkened twins of the palette. The base colors are tuned
+                       for fills and fail contrast as text or hairline borders.
 ```
 
-- `--gold` fails contrast on white. Use it only on navy, or as a fill behind navy text.
-- Category tiles use a 24px radius. This echoes Anderson's program tiles and is the signature element — don't flatten it.
-- Category colors: Dining gold, Shopping red-orange, Experience bright blue, Transportation green.
+**The page is light.** `--sand` ground, white surfaces (`--surface`) for the top bar, category bar, and cards, navy text. Shadows are warm-toned — a cool navy shadow goes muddy over sand.
+
+- `--gold` fails contrast on white. Use it only on navy, or as a fill behind navy text. Current uses: the active nav pill, and the Dining tint.
+- **Category tiles are the signature element.** 24px radius, echoing Anderson's program tiles — don't flatten it. Each tile is a soft *wash* of its category color, mixed so all five share a lightness and read as one set; text and icons stay navy so legibility never depends on the tint. Selecting one deepens its wash and adds a border in the full-strength color, so exactly one tile carries strong color at a time.
+- Category colors: Dining gold, Shopping red-orange, Experience bright blue, Transportation green. Full strength on card top borders and value pills; as washes on tiles.
 - Duration tags: green = Ongoing, red-orange = Limited.
+
+## Layout
+
+- **Top bar is sticky** — brand, search, nav. Search is the first thing on the page and stays reachable while scrolling.
+- **Category tiles sit directly under it**, in their own white band. Browse has no hero; it goes search → categories → benefits. There is a visually hidden `<h1>` so the page still announces a heading.
+- **Filters live in a left sidebar on desktop**, styled as a table of contents: one row per option with a live count, a colored left bar when active. Below 768px the sidebar is replaced by a Filters button opening a bottom sheet with the same rows.
+- Counts are faceted — they respond to the other groups' selections but not to their own, so choosing "Ongoing" doesn't zero out "Limited".
+- Breakpoints: **1024px** (sidebar + multi-column grid above) and **768px** (bottom sheets, single column below).
+- Detail views are a centered modal on desktop and a full-height bottom sheet on phones.
 
 ## Data shape
 
@@ -88,10 +119,25 @@ Every benefit in `benefits.json`:
 - `vd` is the last-verified date and displays on every card. This is the product's core trust mechanism — never render a listing without it.
 - `lat` / `lng` are nullable placeholders for a future map. Leave them in.
 
+Both trust rules are enforced in code, not by memory: `publishable()` in `js/app.js` drops any entry missing `vd` or past its `exp` before the page ever sees it. Keep that gate — it's why a benefit going stale can't quietly stay on screen.
+
+## URL state
+
+The address bar always describes what's on screen, so any view can be shared:
+
+```
+/?cat=Dining&elig=Grad+student&benefit=bruin-grad-pass
+```
+
+- Filters and search are in the query string; opening the link restores them.
+- `benefit=<id>` opens that detail view on load. An unknown or delisted id is dropped silently and the page renders normally — a shared link to something since removed degrades to a working page, never an error.
+- Opening a detail view pushes a history entry, so Back closes it rather than leaving the site.
+
 ## Conventions
 
 - Write plain, accessible HTML. Real buttons and labels, visible keyboard focus, `prefers-reduced-motion` respected.
-- Desktop-primary (~60% of traffic) with full mobile parity (~40%). Nothing is unavailable on a phone.
+- Escape all interpolated data before it reaches `innerHTML` (`esc()` in `js/app.js`). The catalog is repo-controlled today, but it's generated from Airtable.
+- Desktop-primary (~60% of traffic) with full mobile parity (~40%). Nothing is unavailable on a phone. Touch targets 44px minimum below 768px.
 - Interface copy: sentence case, plain verbs, active voice. A button that says "Copy link" produces a toast that says "Link copied." Errors say what went wrong and how to fix it, and never apologize.
 - Commit messages: short and imperative — "Add filter state to URL", not "updated stuff".
 
