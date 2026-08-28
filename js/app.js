@@ -1,7 +1,9 @@
-const CATS = ["Dining","Shopping","Experience","Transportation"];
-const CATCOLOR = {Dining:"#FDE403",Shopping:"#F64A01",Experience:"#007DB7",Transportation:"#6DA691"};
+const CATS = ["Dining","Shopping","Experience","Transportation","Social Support"];
+const CATCOLOR = {Dining:"#FDE403",Shopping:"#F64A01",Experience:"#007DB7",
+                  Transportation:"#6DA691","Social Support":"#7A4B9C"};
 const CATSOFT  = {Dining:"rgba(253,228,3,.28)",Shopping:"rgba(246,74,1,.11)",
-                  Experience:"rgba(0,125,183,.11)",Transportation:"rgba(109,166,145,.20)"};
+                  Experience:"rgba(0,125,183,.11)",Transportation:"rgba(109,166,145,.20)",
+                  "Social Support":"rgba(122,75,156,.12)"};
 const ELIGS = ["Anderson","All UCLA","Grad student","Any student ID","LA resident","CA resident"];
 const LOCS = ["On campus","Off campus","Virtual"];
 const DURS = ["Ongoing","Limited"];
@@ -16,7 +18,8 @@ const ICON = {
   Dining: '<path d="M6 3v6a2.2 2.2 0 0 0 4.4 0V3M8.2 11v10"/><path d="M17.4 3c-1.5 1.2-2.2 2.9-2.2 4.8s.8 3.2 2.2 3.2 2.2-1.3 2.2-3.2S18.9 4.2 17.4 3zM17.4 11v10"/>',
   Shopping: '<path d="M4.5 8h15l-1.2 12.2a1 1 0 0 1-1 .8H6.7a1 1 0 0 1-1-.8L4.5 8z"/><path d="M9 8V6.2a3 3 0 0 1 6 0V8"/>',
   Experience: '<path d="M3.5 8.6V7.4a1.4 1.4 0 0 1 1.4-1.4h14.2a1.4 1.4 0 0 1 1.4 1.4v1.2a2.4 2.4 0 0 0 0 4.8v1.2a1.4 1.4 0 0 1-1.4 1.4H4.9a1.4 1.4 0 0 1-1.4-1.4v-1.2a2.4 2.4 0 0 0 0-4.8z"/><path d="M14.2 6v10" stroke-dasharray="2.4 2.4"/>',
-  Transportation: '<rect x="3.8" y="3.6" width="16.4" height="12.6" rx="2.4"/><path d="M3.8 10.4h16.4M7.6 20.4v-2.4M16.4 20.4v-2.4"/><circle cx="7.9" cy="13.4" r=".9"/><circle cx="16.1" cy="13.4" r=".9"/>'
+  Transportation: '<rect x="3.8" y="3.6" width="16.4" height="12.6" rx="2.4"/><path d="M3.8 10.4h16.4M7.6 20.4v-2.4M16.4 20.4v-2.4"/><circle cx="7.9" cy="13.4" r=".9"/><circle cx="16.1" cy="13.4" r=".9"/>',
+  "Social Support": '<path d="M12 20.4c-4.7-4.1-7.4-6.6-7.4-9.7A4.3 4.3 0 0 1 8.9 6.4c1.3 0 2.4.6 3.1 1.6a3.8 3.8 0 0 1 3.1-1.6 4.3 4.3 0 0 1 4.3 4.3c0 3.1-2.7 5.6-7.4 9.7z"/>'
 };
 
 let DATA = [];

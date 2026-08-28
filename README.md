@@ -39,8 +39,8 @@ docs/PRD.md           Full product spec
 
 ## What's real and what isn't
 
-- **The catalog is real.** 32 verified listings, each with a working source link.
-- **Anderson-only benefits are not in yet.** They can't be sourced from the public
+- **The catalog is real.** 41 verified listings, each with a working source link.
+- **Anderson-only benefits are thin.** One entry so far. The rest have to be pulled from internal channels rather than the public web, and they are the most valuable content the site could carry.
   web — someone on the team has to pull them from internal channels. This is the
   most valuable missing content.
 - **The Add a benefit form is not built.** The page exists; the form doesn't.

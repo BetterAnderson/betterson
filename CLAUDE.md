@@ -78,7 +78,8 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 
 - `--gold` fails contrast on white. Use it only on navy, or as a fill behind navy text. Current uses: the active nav pill, and the Dining tint.
 - **Category tiles are the signature element.** 24px radius, echoing Anderson's program tiles — don't flatten it. Each tile is a soft *wash* of its category color, mixed so all five share a lightness and read as one set; text and icons stay navy so legibility never depends on the tint. Selecting one deepens its wash and adds a border in the full-strength color, so exactly one tile carries strong color at a time.
-- Category colors: Dining gold, Shopping red-orange, Experience bright blue, Transportation green. Full strength on card top borders and value pills; as washes on tiles.
+- Category colors: Dining gold, Shopping red-orange, Experience bright blue, Transportation green, Social Support violet. Full strength on card top borders and value pills; as washes on tiles.
+- **Social Support** covers things that aren't a discount on a purchase — food assistance, legal help, utility relief. It exists because CalFresh in "Dining" and legal aid in "Experience" would both be lies. `--violet` is not an Anderson color; the set has no distinct fifth hue.
 - Duration tags: green = Ongoing, red-orange = Limited.
 
 ## Layout
@@ -114,7 +115,9 @@ Every benefit in `benefits.json`:
 }
 ```
 
+- `c` (category) is one of: Dining · Shopping · Experience · Transportation · Social Support
 - `e` (eligibility) is one of: Anderson · All UCLA · Grad student · Any student ID · LA resident · CA resident
+- Source URLs must be `https://`. An `http://` link on an HTTPS site is a bad look and some of them get blocked.
 - `d` (duration) is Ongoing or Limited. Limited **requires** `exp`, and expired entries must never render.
 - `vd` is the last-verified date and displays on every card. This is the product's core trust mechanism — never render a listing without it.
 - `lat` / `lng` are nullable placeholders for a future map. Leave them in.

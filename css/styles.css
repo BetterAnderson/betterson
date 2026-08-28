@@ -22,6 +22,11 @@
   --on-orange:#A32E00;     /* type on a --red-orange wash */
   --gold-edge:#C9B300;     /* --gold as a visible border */
 
+  /* Fifth category colour (Social Support). The Anderson set has no distinct
+     fifth hue — --blue-mid sits too close to --blue-bright to read as a
+     separate category once both are washed back to tile strength. */
+  --violet:#7A4B9C;
+
   /* Roles */
   --bg:var(--sand);
   --surface:#fff;
@@ -107,7 +112,7 @@ body{
 
 /* ---------- category bar (the signature tiles, compact) ---------- */
 .catbar{background:var(--surface);border-bottom:1px solid var(--rule);padding:14px 0 16px}
-.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
 /* Each tile is a soft wash of its own category colour rather than the colour at
    full strength: same lightness across all five, so they read as one set and
    sit quietly on white. Text and icons stay navy so contrast never depends on
@@ -136,6 +141,7 @@ body{
 .tile[data-key="Shopping"]    {--tint:rgba(246,74,1,.11); --tint-on:rgba(246,74,1,.22); --edge:var(--red-orange)}
 .tile[data-key="Experience"]  {--tint:rgba(0,125,183,.12);--tint-on:rgba(0,125,183,.24);--edge:var(--blue-bright)}
 .tile[data-key="Transportation"]{--tint:rgba(109,166,145,.30);--tint-on:rgba(109,166,145,.50);--edge:var(--green)}
+.tile[data-key="Social Support"]{--tint:rgba(122,75,156,.13);--tint-on:rgba(122,75,156,.26);--edge:var(--violet)}
 
 /* Browse has no visible headline, but the page still needs one announced. */
 .sr-only{
@@ -440,6 +446,10 @@ footer b{color:var(--navy-deep);font-weight:700}
   .topnav a{padding:0 10px;font-size:13.5px}
   .tiles{grid-template-columns:repeat(2,1fr)}
   .tile[data-key="all"]{grid-column:1 / -1;min-height:56px}
+  /* "all" spans the row, so an even tile count leaves the last one orphaned in
+     a half-width cell. Let it span instead. Self-adjusting if a category is
+     added or removed. */
+  .tile:last-child:nth-child(even){grid-column:1 / -1}
   .layout{grid-template-columns:206px 1fr;gap:22px}
   .grid{grid-template-columns:1fr}
   .kv{grid-template-columns:1fr;gap:3px 0}
