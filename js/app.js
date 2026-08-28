@@ -22,6 +22,36 @@ const ICON = {
   "Social Support": '<path d="M12 20.4c-4.7-4.1-7.4-6.6-7.4-9.7A4.3 4.3 0 0 1 8.9 6.4c1.3 0 2.4.6 3.1 1.6a3.8 3.8 0 0 1 3.1-1.6 4.3 4.3 0 0 1 4.3 4.3c0 3.1-2.7 5.6-7.4 9.7z"/>'
 };
 
+/* Per-benefit marks, keyed by the optional `ic` field. A UCLA logo on the 27
+   campus listings would tell you nothing; what a benefit *is* distinguishes it.
+   Anything missing or unrecognised falls back to its category icon. */
+const BENEFIT_ICON = {
+  bus: ICON.Transportation,
+  ticket: ICON.Experience,
+  utensils: ICON.Dining,
+  basket: ICON.Shopping,
+  apps: ICON.all,
+  card: '<rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.4"/><path d="M2.6 9.8h18.8M6.2 14.6h3.4"/>',
+  train: '<rect x="5" y="3.4" width="14" height="12.4" rx="2.6"/><path d="M5 10h14M8.6 19.8l-2 2M15.4 19.8l2 2M7.4 15.8v4h9.2v-4"/><circle cx="9" cy="12.9" r=".9"/><circle cx="15" cy="12.9" r=".9"/>',
+  tree: '<path d="M12 3.2 6.6 11h3L5.6 17.2h12.8L14.4 11h3L12 3.2zM12 17.2v3.6"/>',
+  film: '<rect x="3" y="4.6" width="18" height="14.8" rx="2.2"/><path d="M8 4.6v14.8M16 4.6v14.8M3 12h18M3 8.3h5M3 15.7h5M16 8.3h5M16 15.7h5"/>',
+  trophy: '<path d="M7.4 4h9.2v5.2a4.6 4.6 0 0 1-9.2 0V4zM7.4 5.6H4.8v1.6a3 3 0 0 0 2.6 3M16.6 5.6h2.6v1.6a3 3 0 0 1-2.6 3M12 13.8v3.4M8.6 20.4h6.8l-.8-3.2H9.4z"/>',
+  music: '<path d="M9.2 17.6V6.2l9-1.8v11"/><circle cx="6.6" cy="17.6" r="2.6"/><circle cx="15.6" cy="15.4" r="2.6"/>',
+  museum: '<path d="M12 3 3 7.6h18L12 3zM5.4 10.4v7M9.8 10.4v7M14.2 10.4v7M18.6 10.4v7M3 20.4h18M3.6 17.4h16.8"/>',
+  dumbbell: '<path d="M3.2 9.4v5.2M6.4 7.2v9.6M17.6 7.2v9.6M20.8 9.4v5.2M6.4 12h11.2"/>',
+  bowl: '<path d="M3.4 11.6h17.2a8.6 8.6 0 0 1-8.6 8.2 8.6 8.6 0 0 1-8.6-8.2zM9 8.2c0-1.4 1.2-1.8 1.2-3M13.6 8.2c0-1.4 1.2-1.8 1.2-3"/>',
+  tag: '<path d="M11.2 3.4H20v8.8l-8.8 8.8-8.8-8.8z"/><circle cx="16.2" cy="7.8" r="1.4"/>',
+  coffee: '<path d="M4.4 8h12v6.4a4.6 4.6 0 0 1-4.6 4.6H9a4.6 4.6 0 0 1-4.6-4.6zM16.4 9.6h1.8a2.6 2.6 0 0 1 0 5.2h-1.8M3 21.4h15M8 3.2v2M12 3.2v2"/>',
+  laptop: '<rect x="4" y="4.8" width="16" height="10.8" rx="1.8"/><path d="M2.2 19h19.6l-1.4-3.4H3.6z"/>',
+  download: '<path d="M12 3.6v10.2M8.2 10.2 12 14l3.8-3.8M4 16.4v2.4a1.8 1.8 0 0 0 1.8 1.8h12.4a1.8 1.8 0 0 0 1.8-1.8v-2.4"/>',
+  book: '<path d="M12 6.6C10.2 5 7.6 4.2 4 4.2v13.2c3.6 0 6.2.8 8 2.4 1.8-1.6 4.4-2.4 8-2.4V4.2c-3.6 0-6.2.8-8 2.4zM12 6.6v13.2"/>',
+  printer: '<path d="M6.6 9V3.6h10.8V9M6.6 17.4H4.8A1.8 1.8 0 0 1 3 15.6v-4.8A1.8 1.8 0 0 1 4.8 9h14.4a1.8 1.8 0 0 1 1.8 1.8v4.8a1.8 1.8 0 0 1-1.8 1.8h-1.8"/><rect x="6.6" y="14.4" width="10.8" height="6" rx="1"/>',
+  scales: '<path d="M12 3.6v16.8M6.6 6.2h10.8M7.8 20.4h8.4M6.6 6.2 3.4 13h6.4zM17.4 6.2 14.2 13h6.4z"/>',
+  bolt: '<path d="M13.4 2.6 4.6 13.4h6L10.6 21.4l8.8-10.8h-6z"/>',
+  list: '<path d="M9 6.6h11M9 12h11M9 17.4h11"/><circle cx="4.6" cy="6.6" r="1.2"/><circle cx="4.6" cy="12" r="1.2"/><circle cx="4.6" cy="17.4" r="1.2"/>',
+  baseball: '<circle cx="12" cy="12" r="9"/><path d="M6.2 5.4c2 2 3.2 4.2 3.2 6.6s-1.2 4.6-3.2 6.6M17.8 5.4c-2 2-3.2 4.2-3.2 6.6s1.2 4.6 3.2 6.6"/>'
+};
+
 let DATA = [];
 const state = {cat:"all", q:"", elig:new Set(), dur:new Set(), loc:new Set(), benefit:null};
 let syncing = false;   // guards the dialog<->history round trip
@@ -99,6 +129,76 @@ function fmtDate(s){
   return `Verified ${months[+m-1]} ${+dd}, ${y}`;
 }
 
+/* Brand marks, from Simple Icons (CC0-licensed SVG, simpleicons.org). Single
+   filled paths in the brand's own colour, on a white badge so they read as
+   logos rather than another category glyph. Trademarks belong to their owners;
+   these identify whose offer a listing is, nothing more. */
+const BRAND_ICON = {
+  mcdonalds: {c:"#FBC817", d:"M17.243 3.006c2.066 0 3.742 8.714 3.742 19.478H24c0-11.588-3.042-20.968-6.766-20.968-2.127 0-4.007 2.81-5.248 7.227-1.241-4.416-3.121-7.227-5.231-7.227C3.031 1.516 0 10.888 0 22.476h3.014c0-10.763 1.658-19.47 3.724-19.47 2.066 0 3.741 8.05 3.741 17.98h2.997c0-9.93 1.684-17.98 3.75-17.98Z"},
+  spotify: {c:"#1ED760", d:"M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"},
+  apple: {c:"#000000", d:"M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"}
+};
+
+/* Brands whose mark is a file in img/logos/ rather than an inlined path —
+   the ones Simple Icons doesn't carry. `fb` is the type icon to show until the
+   file exists, or if it's missing or misnamed. Prefer an inlined path in
+   BRAND_ICON when one is available; a file costs a request per card. */
+const BRAND_FILE = {
+  chipotle:     {fb:"bowl"},
+  jackinthebox: {fb:"baseball"},
+  pandaexpress: {fb:"baseball"},
+  ucla:         {fb:"apps", ext:"png"}   // ext skips the .svg probe and its 404
+};
+
+function lineIcon(key, cat, size){
+  const paths = BENEFIT_ICON[key] || ICON[cat] || ICON.all;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+    stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+}
+
+/* Resolved once at startup: ic -> usable URL, or null if no file is there.
+   Probing up front rather than per card means a brand with no logo yet costs
+   two requests for the whole session instead of two on every re-render. */
+const logoSrc = {};
+
+function tryLoad(src){
+  return new Promise((ok, fail) => {
+    const img = new Image();
+    img.onload = () => ok(src);
+    img.onerror = fail;
+    img.src = src;
+  });
+}
+
+function resolveLogos(){
+  return Promise.all(Object.entries(BRAND_FILE).map(([key, cfg]) => {
+    const exts = cfg.ext ? [cfg.ext] : ["svg","png"];
+    return exts
+      .reduce((chain, ext) => chain.catch(() => tryLoad(`img/logos/${key}.${ext}`)),
+              Promise.reject())
+      .then(src => { logoSrc[key] = src; })
+      .catch(() => { logoSrc[key] = null; });
+  }));
+}
+
+/* `ic` is optional — an entry without one still gets a sensible mark.
+   A brand mark is filled and coloured; everything else is a navy line icon. */
+function iconFor(d, size){
+  const brand = BRAND_ICON[d.ic];
+  if(brand){
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24"
+      fill="${brand.c}" aria-hidden="true"><path d="${brand.d}"/></svg>`;
+  }
+  if(BRAND_FILE[d.ic] && logoSrc[d.ic]){
+    return `<img src="${esc(logoSrc[d.ic])}" alt="" width="${size}" height="${size}">`;
+  }
+  // No file yet — fall back to the type icon named in BRAND_FILE.
+  const key = BRAND_FILE[d.ic] ? BRAND_FILE[d.ic].fb : d.ic;
+  return lineIcon(key, d.c, size);
+}
+const isBrand = d => !!(BRAND_ICON[d.ic] || (BRAND_FILE[d.ic] && logoSrc[d.ic]));
+
 function notice(title, body){
   const el = $("notice");
   if(title === null){ el.hidden = true; return; }
@@ -175,7 +275,10 @@ function renderGrid(){
 
   grid.innerHTML = rows.map(d=>`
     <button class="card" data-id="${esc(d.id)}" style="--cat:${CATCOLOR[d.c]};--cat-soft:${CATSOFT[d.c]}">
-      <span class="provider">${esc(d.p)}</span>
+      <span class="cardhead">
+        <span class="ic${isBrand(d)?" ic-brand":""}">${iconFor(d,19)}</span>
+        <span class="provider">${esc(d.p)}</span>
+      </span>
       <h3 class="title">${esc(d.t)}</h3>
       <span class="value">${esc(d.v)}</span>
       <span class="tagrow">
@@ -195,7 +298,7 @@ function openSheet(id, push=true){
   body.style.setProperty("--cat", CATCOLOR[d.c]);
   body.style.setProperty("--cat-soft", CATSOFT[d.c]);
   body.innerHTML = `
-    <p class="provider">${esc(d.p)}</p>
+    <p class="cardhead"><span class="ic${isBrand(d)?" ic-brand":""}">${iconFor(d,21)}</span><span class="provider">${esc(d.p)}</span></p>
     <h2>${esc(d.t)}</h2>
     <p class="value">${esc(d.v)}</p>
     <dl class="kv">
@@ -319,6 +422,9 @@ fetch("data/benefits.json")
   .then(r=>{ if(!r.ok) throw new Error(`${r.status} ${r.statusText}`); return r.json(); })
   .then(rows=>{
     DATA = rows.filter(publishable);
+    return resolveLogos().then(()=>rows);   // know which logos exist before first paint
+  })
+  .then(()=>{
     readURL();
     qEl.value = state.q;
     const wanted = state.benefit;

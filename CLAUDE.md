@@ -50,6 +50,7 @@ Any static server works. This one also sends no-cache headers, so a CSS or JS ed
 /css/styles.css        All styles, shared by every page
 /js/app.js             Browse page logic
 /data/benefits.json    The catalog — generated from Airtable
+/img/logos/            Brand logo files — see the README in there
 /scripts/serve.py      Local dev server (no-cache static)
 /README.md             What this is, how to run it, what's stubbed
 /docs/PRD.md           Full product spec
@@ -101,6 +102,7 @@ Every benefit in `benefits.json`:
   "t": "Bruin Grad Pass",
   "p": "UCLA Transportation",
   "c": "Transportation",
+  "ic": "bus",
   "v": "$25 per quarter for unlimited...",
   "e": "Grad student",
   "d": "Ongoing",
@@ -116,6 +118,9 @@ Every benefit in `benefits.json`:
 ```
 
 - `c` (category) is one of: Dining · Shopping · Experience · Transportation · Social Support
+- `ic` (icon) is **optional** — the mark shown on the card, keyed to `BENEFIT_ICON` in `js/app.js`. Leave it out and the entry falls back to its category icon; an unrecognised value does the same. Pick by what the benefit *is* (bus, printer, scales), not by who provides it: 27 of 41 listings come from a UCLA-family provider, so a provider mark would make two-thirds of the catalog look identical. Add a new key to `BENEFIT_ICON` rather than reaching for a logo.
+- Real brand marks live in `BRAND_ICON` — filled paths in the brand's own colour, on a white badge. Only for the company actually behind the offer (`apple`, `mcdonalds`, `spotify` so far). They come from [Simple Icons](https://simpleicons.org), whose SVGs are CC0; the trademarks stay with their owners. Adding one means pasting a single path, not committing an image file — keep it that way, so there are no binaries in the repo and no requests at page load.
+- Brands Simple Icons doesn't carry are listed in `BRAND_FILE` and load from `img/logos/<ic>.svg`, falling back to `.png` and then to a type icon. A missing or misnamed file therefore renders as a normal card, never a broken image. Check simpleicons.org before adding a file.
 - `e` (eligibility) is one of: Anderson · All UCLA · Grad student · Any student ID · LA resident · CA resident
 - Source URLs must be `https://`. An `http://` link on an HTTPS site is a bad look and some of them get blocked.
 - `d` (duration) is Ongoing or Limited. Limited **requires** `exp`, and expired entries must never render.

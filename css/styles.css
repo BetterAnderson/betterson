@@ -253,9 +253,22 @@ body{
 }
 .card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(74,52,30,.18)}
 .card:focus-visible{outline:3px solid var(--blue-bright);outline-offset:3px}
+/* Icon badge + provider, sharing a line. The badge carries the category tint
+   with a navy mark, so contrast never depends on which category it is. */
+.cardhead{display:flex;align-items:center;gap:10px;min-width:0}
+.ic{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:9px;
+  background:var(--cat-soft,rgba(0,125,183,.10));color:var(--navy-deep)
+}
+/* Brand marks keep their own colour, so they sit on white with a hairline
+   rather than a category tint that would fight them. */
+.ic-brand{background:var(--surface);border:1px solid var(--rule)}
+.ic img{display:block;width:100%;height:100%;object-fit:contain}
 .card .provider{
   font-family:Archivo,sans-serif;font-size:11.5px;font-weight:700;
-  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft)
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);
+  min-width:0;overflow-wrap:anywhere
 }
 .card .title{
   font-family:Archivo,sans-serif;font-weight:700;font-size:18.5px;
@@ -309,6 +322,8 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
   box-shadow:0 24px 60px rgba(46,30,14,.34)
 }
 .sheet:focus{outline:none}   /* focused by script on open, not by the user */
+.sheet .cardhead{margin:0}
+.sheet .ic{width:36px;height:36px;border-radius:10px}
 .sheet .provider{
   font-family:Archivo,sans-serif;font-size:11.5px;font-weight:700;
   letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft)
