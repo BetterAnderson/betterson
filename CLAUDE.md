@@ -25,8 +25,8 @@ The full specification is in `docs/PRD.md`. **Read it before making product deci
 - Plain HTML / CSS / vanilla JS. No framework, no build.
 - Data: `data/benefits.json`, loaded at runtime with `fetch`.
 - Fonts: Archivo + Archivo Black (headings, labels) and Source Sans 3 (body), from Google Fonts.
-- Submission intake: Supabase (Postgres + Storage) for the Add a Benefit form. The form is built and validates; **the storage call is not wired** — see `submitBenefit()` in `js/form.js`.
-- Business inquiries: Formspree for the For Businesses form. **Not built yet.**
+- Submission intake: Supabase (Postgres + Storage) for the Add a Benefit form. Live. Schema and policies in `docs/supabase-setup.sql`.
+- Business inquiries: a mailto link on For Businesses, not a form. No placements are being sold, so a form collecting budget ranges would promise a sales process that doesn't exist. The address is assembled by a small inline script so it isn't in the markup as one string. Switch to the PRD §7.4 form if real inbound ever justifies structured fields.
 - Hosting: Vercel, auto-deploying from `main`.
 - Maps (future, not now): Leaflet + OpenStreetMap. No Google Maps, no API keys.
 
@@ -46,7 +46,7 @@ Any static server works. This one also sends no-cache headers, so a CSS or JS ed
 /index.html            Browse — the catalog
 /about.html            About
 /add.html              Add a benefit — submission form
-/partners.html         For businesses — page shell, form not built
+/partners.html         For businesses
 /css/styles.css        All styles, shared by every page
 /js/app.js             Browse page logic
 /js/form.js            Add a benefit — validation and submission
@@ -101,9 +101,25 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 - Errors sit against the field they belong to. Never one generic banner; the line above the button only counts how many fields need attention.
 - "Not sure" is a valid answer for eligibility and duration. Removing that escape doesn't produce better data, it produces confident-looking wrong data.
 - Credit is a required radio with no default, and shows the exact line the listing will carry — *Added by Jane D.* or *Added by a fellow Bruin*.
-- Email must end in `@anderson.ucla.edu`, `@g.ucla.edu` or `@ucla.edu`. Checked with a full-segment match, so `@fake.ucla.edu` and `@ucla.edu.evil.com` are both rejected. Anderson addresses set `trusted: true` for queue sorting.
+- Email must end in `@anderson.ucla.edu`, `@g.ucla.edu` or `@ucla.edu`. Checked with a full-segment match, so `@fake.ucla.edu` and `@ucla.edu.evil.com` are both rejected. `trusted` is computed by the database from the domain, not sent by the browser — a submitter can't promote themselves up the queue.
 - Spam: a honeypot (`#website`) and a 60-second rate limit. A filled honeypot shows the success screen and stores nothing — never tell a bot it failed.
-- **Not wired:** `submitBenefit()` logs and resolves. Replace its body with the Supabase insert; everything else stays. Production also needs the domain re-checked server-side plus a confirmation email — a browser check is trivially bypassed.
+
+### How a submission becomes a listing
+
+**Nothing in Supabase reaches the site.** The catalog is `data/benefits.json` in this repo, and `js/app.js` never mentions Supabase. Submissions cannot appear publicly by accident, misconfiguration, or a wrong click — the wire does not exist.
+
+**`status` is decorative.** Nothing reads it. Setting a row to `live` in Supabase publishes nothing; it's a note-to-self for tracking what's been reviewed. Don't mistake it for a publish switch.
+
+Approving one is manual, on purpose:
+
+1. Read the submission in the Supabase dashboard.
+2. **Verify it against a real source.** This is the work. A submission is a claim; a listing needs a working `u` and a `vd`. The form's link field is optional, so plenty arrive with nothing to check — find the source or drop the entry.
+3. Add it to `data/benefits.json` (or to Laura's Airtable, which generates it).
+4. Commit and push.
+
+Left manual deliberately: volume is low, and a script that publishes unverified entries would break the one rule the product is built on. When it's worth automating, `scripts/import.js` should merge the Airtable export with approved Supabase rows — keeping `benefits.json` as what the site reads, so the catalog survives Supabase having a bad day. That script would need a key that can read, i.e. `service_role`, in an environment variable and never in the repo.
+
+- **Storage:** live. `submitBenefit()` posts to Supabase with plain `fetch` — no client library, nothing loaded at page open. The publishable key is in client code on purpose; RLS carries the weight. The database re-checks the email domain, category, duration, location and initial, so the browser check is a courtesy and the database check is the one that holds. Production would still want a confirmation email.
 
 ## Data shape
 

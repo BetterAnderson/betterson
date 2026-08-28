@@ -51,9 +51,10 @@ docs/PRD.md           Full product spec
   re-check the domain server-side and send a confirmation email; a check that runs
   in the browser is trivially bypassed. Submissions are also never auto-published —
   they land as `status: submitted` for a human to review.
-- **The For businesses contact form is not built**, and the audience statistics
-  block is deliberately empty until someone pulls real figures from Anderson's
-  published class profile. We're not estimating them.
+- **For businesses takes enquiries by email, not a form.** Nothing is being sold
+  yet, so a form asking for budget ranges would imply a pipeline that doesn't
+  exist. The audience statistics block is deliberately empty until someone pulls
+  real figures from Anderson's published class profile. We're not estimating them.
 - **Sharing a single benefit works by URL** (`/?benefit=bruin-grad-pass` opens that
   benefit directly), but there's no share button yet.
 

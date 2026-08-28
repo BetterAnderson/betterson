@@ -567,13 +567,22 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
   .formfoot .btn{width:100%;justify-content:center}
 }
 
-/* Honest note where something isn't finished. Product voice, not dev notes. */
-.pending{
+.contactline{margin:0}
+.contactline a{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:Archivo,sans-serif;font-weight:700;font-size:16px;
+  color:var(--blue-bright);text-decoration:none;
+  padding:13px 20px;border-radius:12px;
   background:var(--surface);border:1px solid var(--rule);
-  border-left:5px solid var(--gold-edge);
-  border-radius:var(--radius-card);padding:18px 22px;max-width:60ch
+  transition:border-color .14s ease, color .14s ease
 }
-.pending p{margin:0}
+.contactline a:hover{border-color:var(--blue-bright);color:var(--blue-press)}
+.contactline a:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
+.contactline a svg{flex:0 0 auto}
+
+@media (max-width:767px){
+  .contactline a{font-size:14.5px;padding:12px 15px;overflow-wrap:anywhere}
+}
 
 footer{
   margin-top:52px;padding:22px 0 40px;
