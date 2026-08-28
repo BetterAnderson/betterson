@@ -113,16 +113,28 @@ function facetCount(key,value){
   }).length;
 }
 
+const today = () => new Date().toISOString().slice(0,10);
+
 /* Entries that must never reach the page, whatever the filters say:
    an expired Limited offer, or one with no verified date to stand behind. */
 function publishable(d){
-  const today = new Date().toISOString().slice(0,10);
   if(!d.vd) return false;
-  if(d.exp && d.exp < today) return false;
+  if(d.exp && d.exp < today()) return false;
   return true;
 }
 
+/* A seasonal offer that exists but can't be used yet — the Rams promo before
+   the NFL season opens. It stays listed, but the card says so rather than
+   implying you could go and use it this afternoon. */
+const notYetOpen = d => !!d.starts && d.starts > today();
+
 /* ---------- rendering ---------- */
+function shortDate(s){
+  const [y,m,dd] = s.split("-");
+  const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${months[+m-1]} ${+dd}`;
+}
+
 function fmtDate(s){
   const [y,m,dd] = s.split("-");
   const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -147,6 +159,11 @@ const BRAND_FILE = {
   chipotle:     {fb:"bowl"},
   jackinthebox: {fb:"baseball"},
   pandaexpress: {fb:"baseball"},
+  carlsjr:      {fb:"baseball"},
+  mountaindew:  {fb:"baseball"},
+  habitburger:  {fb:"baseball", ext:"png"},
+  norms:        {fb:"utensils", ext:"png"},
+  onohawaiianbbq:{fb:"bowl",    ext:"png"},
   ucla:         {fb:"apps", ext:"png"}   // ext skips the .svg probe and its 404
 };
 
@@ -283,7 +300,9 @@ function renderGrid(){
       <span class="value">${esc(d.v)}</span>
       <span class="tagrow">
         <span class="tag elig">${esc(d.e)}</span>
-        <span class="tag dur-${esc(d.d)}">${esc(d.d)}</span>
+        ${notYetOpen(d)
+          ? `<span class="tag dur-soon">Starts ${shortDate(d.starts)}</span>`
+          : `<span class="tag dur-${esc(d.d)}">${esc(d.d)}</span>`}
         <span class="tag">${esc(d.loc)}</span>
       </span>
       <span class="verified">${fmtDate(d.vd)}</span>
@@ -305,7 +324,7 @@ function openSheet(id, push=true){
       <dt>Who</dt><dd>${esc(d.e)}</dd>
       <dt>How to use</dt><dd>${esc(d.r)}</dd>
       <dt>Where</dt><dd>${esc(d.loc)}</dd>
-      <dt>How long</dt><dd>${esc(d.d)}${d.exp?` · ends ${esc(d.exp)}`:""}</dd>
+      <dt>How long</dt><dd>${notYetOpen(d)?`Starts ${shortDate(d.starts)} · `:""}${esc(d.d)}${d.exp?` · ends ${esc(d.exp)}`:""}</dd>
       <dt>Category</dt><dd>${esc(d.c)}</dd>
     </dl>
     ${d.n?`<p class="note">${esc(d.n)}</p>`:""}

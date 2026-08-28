@@ -285,6 +285,8 @@ body{
   letter-spacing:.04em;padding:4px 9px;border-radius:6px;
   background:rgba(10,19,48,.07);color:var(--ink-soft)
 }
+/* Seasonal, but not open yet — reads as upcoming rather than available. */
+.tag.dur-soon{background:rgba(253,228,3,.42);color:var(--navy-deep)}
 .tag.dur-Ongoing{background:rgba(109,166,145,.26);color:var(--on-green)}
 .tag.dur-Limited{background:rgba(246,74,1,.15);color:var(--on-orange)}
 .tag.elig{background:rgba(0,125,183,.14);color:var(--on-blue)}

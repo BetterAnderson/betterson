@@ -139,6 +139,7 @@ Every benefit in `benefits.json`:
   "r": "Register on the transit portal...",
   "u": "https://...",
   "vd": "2026-08-25",
+  "starts": null,
   "exp": null,
   "lat": null,
   "lng": null,
@@ -153,6 +154,7 @@ Every benefit in `benefits.json`:
 - `e` (eligibility) is one of: Anderson · All UCLA · Grad student · Any student ID · LA resident · CA resident
 - Source URLs must be `https://`. An `http://` link on an HTTPS site is a bad look and some of them get blocked.
 - `d` (duration) is Ongoing or Limited. Limited **requires** `exp`, and expired entries must never render.
+- `starts` is optional and mirrors `exp`: the first date a seasonal offer can actually be used. A future `starts` still renders, but the duration tag becomes *Starts Sep 9* instead of *Limited*, so a promo that can't trigger until the NFL season opens doesn't read as available today. It self-corrects on the date — no cleanup.
 - `vd` is the last-verified date and displays on every card. This is the product's core trust mechanism — never render a listing without it.
 - `lat` / `lng` are nullable placeholders for a future map. Leave them in.
 
