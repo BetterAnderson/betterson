@@ -218,6 +218,11 @@ function openSheet(id, push=true){
 
   const dlg = $("sheet");
   if(!dlg.open) dlg.showModal();
+  /* A dialog autofocuses its first focusable child — here the source link, which
+     sits at the bottom. On a tall phone sheet that scrolls the panel past its
+     own title. Take focus to the top of the sheet instead. */
+  body.scrollTop = 0;
+  body.focus({preventScroll:true});
   body.querySelector("#closeSheet").addEventListener("click",closeSheet);
   return true;
 }
