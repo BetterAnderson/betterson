@@ -416,11 +416,6 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 /* The option worth leading with, marked rather than boxed off on its own. */
 .mini.lead{border-color:var(--blue-bright);box-shadow:0 2px 6px rgba(0,125,183,.10)}
 .mini.lead h3{color:var(--blue-bright)}
-/* Only where the grid is known to be three wide: gives the lead card room and
-   stops the seventh card stranding itself on a row of its own. */
-@media (min-width:1024px){
-  .mini.lead{grid-column:span 2}
-}
 .mini{
   background:var(--surface);border:1px solid var(--rule);
   border-radius:16px;padding:16px 18px
