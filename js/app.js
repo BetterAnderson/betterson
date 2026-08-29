@@ -350,18 +350,32 @@ function openSheet(id, push=true){
 }
 
 /* Every close route funnels through here rather than through the dialog's
-   own close event, which not every engine fires reliably. Idempotent, so the
-   close event can call it again harmlessly. */
+   own close event, which not every engine fires reliably.
+
+   `closing` exists because history.back() is asynchronous. The dialog's close
+   event fires while that navigation is still in flight — at which point the
+   URL still carries ?benefit= and history.state still holds the id, so both
+   checks below pass and we would go back a *second* time, stepping past
+   Browse to whatever the person was looking at before they arrived. */
+let closing = false;
+
 function closeSheet(){
   const dlg = $("sheet");
   if(dlg.open) dlg.close();
-  if(syncing) return;
+  if(syncing || closing) return;
   const inURL = new URLSearchParams(location.search).get("benefit");
   if(!inURL) return;
   const ours = history.state && history.state.benefit === inURL;
   state.benefit = null;
-  if(ours) history.back();
-  else writeURL();
+  if(ours){
+    closing = true;
+    // popstate clears this; the timer is a fallback in case it never arrives,
+    // so a missed event can't leave the close button permanently dead.
+    setTimeout(() => { closing = false; }, 500);
+    history.back();
+  }else{
+    writeURL();
+  }
 }
 
 /* Reconcile the dialog with whatever the URL says — used on back/forward. */
@@ -433,7 +447,7 @@ $("filterSheet").addEventListener("click",e=>{
   if(e.target.id==="filterSheet") e.target.close();
 });
 
-addEventListener("popstate",syncSheetToURL);
+addEventListener("popstate",()=>{ closing = false; syncSheetToURL(); });
 
 /* ---------- load ---------- */
 notice("Loading benefits…","One moment.");
