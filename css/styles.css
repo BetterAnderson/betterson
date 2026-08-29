@@ -421,6 +421,13 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 }
 .member p{margin:0 0 3px;font-size:15px;max-width:none}
 .member .role{color:var(--navy-deep);font-weight:600}
+.member .memail{margin-top:6px;font-size:14px;overflow-wrap:break-word}
+.member .memail a{
+  color:var(--blue-bright);text-decoration:none;
+  border-bottom:1px solid rgba(0,125,183,.35)
+}
+.member .memail a:hover{color:var(--blue-press);border-bottom-color:currentColor}
+.member .memail a:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
 .member .fact{margin-top:10px;font-size:14.5px;color:var(--ink-soft);font-style:italic}
 
 /* Three facts, stated as numbers rather than sentences. */

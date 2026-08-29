@@ -63,26 +63,19 @@
         <!-- Assembled by the script below, so the address isn't sitting in the
              markup as one string for scrapers to lift. Degrades to readable
              text if that script never runs. -->
-        <a id="contactLink" data-u="jingxiang.lin.2028" data-d="anderson.ucla.edu">
+        <a data-u="jingxiang.lin.2028" data-d="anderson.ucla.edu"
+           data-subject="Betterson — partnership enquiry">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="2.6" y="4.8" width="18.8" height="14.4" rx="2.4"/><path d="m3.4 6.6 8.6 6.4 8.6-6.4"/>
           </svg>
-          <span>jingxiang.lin.2028 [at] anderson.ucla.edu</span>
+          <span data-address>jingxiang.lin.2028 [at] anderson.ucla.edu</span>
         </a>
       </p>
     </section>
   </div>
 </div>
 
-<script>
-  (function(){
-    var a = document.getElementById("contactLink");
-    if(!a) return;
-    var address = a.dataset.u + "@" + a.dataset.d;
-    a.href = "mailto:" + address + "?subject=" + encodeURIComponent("Betterson — partnership enquiry");
-    a.querySelector("span").textContent = address;
-  })();
-</script>
+<script src="js/mailto.js"></script>
 </body>
 </html>
