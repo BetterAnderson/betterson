@@ -401,7 +401,7 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 /* ---------- team ---------- */
 .teamgrid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));
-  gap:28px 26px;margin-top:26px
+  gap:28px 26px;margin-top:4px
 }
 .member{min-width:0}
 /* Initials sit underneath; the photo covers them, and removes itself if it
