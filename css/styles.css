@@ -170,7 +170,7 @@ body{
 /* ---------- two-column layout ---------- */
 .layout{
   display:grid;grid-template-columns:236px 1fr;gap:30px;
-  align-items:start;margin-top:26px
+  align-items:start;margin:26px 0 72px
 }
 
 /* ---------- sidebar filters ---------- */
@@ -368,7 +368,7 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 }
 
 /* ---------- content pages (About / Add / For businesses) ---------- */
-.page{padding:26px 0 8px;max-width:1020px}
+.page{padding:26px 0 72px;max-width:1020px}
 .section{margin:0 0 52px}
 .section:last-child{margin-bottom:0}
 
@@ -586,13 +586,6 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 @media (max-width:767px){
   .contactline a{font-size:14.5px;padding:12px 15px;overflow-wrap:anywhere}
 }
-
-footer{
-  margin-top:52px;padding:22px 0 40px;
-  border-top:1px solid var(--rule);
-  font-size:13.5px;color:var(--ink-soft)
-}
-footer b{color:var(--navy-deep);font-weight:700}
 
 /* ---------- tablet (768–1023px) ---------- */
 @media (max-width:1023px){
