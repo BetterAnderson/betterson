@@ -27,7 +27,7 @@
   <div class="hero">
     <p class="eyebrow">Add a benefit</p>
     <h1>Make it better.</h1>
-    <p class="lede">Found something we're missing? Tell us and we'll verify it and add it.</p>
+    <p class="lede">Found something? Tell us here.</p>
   </div>
 
   <div class="page">
@@ -72,7 +72,6 @@
 
         <fieldset class="field">
           <legend>Credit me on the listing</legend>
-          <span class="hint">Either answer is fine — we just won't guess.</span>
           <div class="radios">
             <label><input type="radio" name="credit" value="yes"> Yes, use my name</label>
             <label><input type="radio" name="credit" value="no"> No, keep me anonymous</label>
@@ -83,8 +82,7 @@
       </section>
 
       <section class="formstep" aria-labelledby="step2">
-        <h2 id="step2"><span class="stepnum">2</span> Anything else you know</h2>
-        <p class="stepnote">All optional. Skip the lot and we'll work it out from the link — this is only here if you already know the answers.</p>
+        <h2 id="step2"><span class="stepnum">2</span> Anything else you know <span class="opt">(Optional)</span></h2>
 
         <div class="field">
           <label for="f-name">Benefit name</label>
@@ -94,7 +92,7 @@
 
         <div class="field">
           <label for="f-provider">Provider or business</label>
-          <span class="hint">Who actually gives it out — a department, a shop, a brand.</span>
+          <span class="hint">A department, a shop, a brand.</span>
           <input type="text" id="f-provider" name="provider" autocomplete="off">
           <p class="fielderr" id="f-provider-err" hidden></p>
         </div>
@@ -164,7 +162,6 @@
 
         <fieldset class="field">
           <legend>Have you used this yourself?</legend>
-          <span class="hint">Firsthand beats hearsay — it tells us how hard to dig.</span>
           <div class="radios stack">
             <label><input type="radio" name="used" value="Yes, personally"> Yes, personally</label>
             <label><input type="radio" name="used" value="No, heard about it"> No, heard about it</label>
