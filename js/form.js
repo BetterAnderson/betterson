@@ -23,6 +23,7 @@ const $ = id => document.getElementById(id);
 const val = id => ($(id)?.value || "").trim();
 const radio = name => form.querySelector(`input[name="${name}"]:checked`)?.value || "";
 const words = s => s.split(/\s+/).filter(Boolean).length;
+const today = () => new Date().toISOString().slice(0,10);
 const escapeHtml = s => String(s ?? "")
   .replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -70,37 +71,21 @@ function clearAllErrors(){
   $("f-formerr").hidden = true;
 }
 
-/* ---------- per-field checks ---------- */
+/* ---------- per-field checks ----------
+   Only the link and who you are are required. Everything about the benefit is
+   optional — with a working link we can fill the rest in ourselves, and asking
+   a student to do it was costing two minutes and losing submissions. Optional
+   fields are still format-checked once someone actually fills one in. */
 const CHECKS = {
-  "f-name": () => val("f-name") ? null
-    : "Give it a short name — whatever you'd call it telling a friend.",
-
-  "f-provider": () => val("f-provider") ? null
-    : "Name who gives it out: a department, a shop, a brand.",
-
-  "f-category": () => val("f-category") ? null
-    : "Pick the category it belongs in.",
-
-  "f-description": () => {
-    const v = val("f-description");
-    if(!v) return "Describe what you actually get.";
-    const n = words(v);
-    if(n > WORD_LIMIT) return `That's ${n} words. Trim it to ${WORD_LIMIT} or fewer.`;
-    return null;
-  },
-
-  "f-eligibility": () => val("f-eligibility") ? null
-    : "Pick who can use it. “Not sure” is a real answer.",
-
-  "f-where": () => val("f-where") ? null
-    : "Pick where it gets used.",
-
-  "f-end": () => {
-    if(radio("duration") !== "Limited") return null;
-    const v = val("f-end");
-    if(!v) return "A limited offer needs an end date. If you don't know it, pick “Not sure” above.";
-    if(v < new Date().toISOString().slice(0,10))
-      return "That date has already passed. Check it, or pick “Not sure” above.";
+  "f-link": () => {
+    const v = val("f-link");
+    if(!v) return "Paste the link. It's the one thing we can't work out ourselves.";
+    try{
+      const u = new URL(v);
+      if(u.protocol !== "http:" && u.protocol !== "https:") throw 0;
+    }catch(e){
+      return "That doesn't look like a web address. It should start with https://";
+    }
     return null;
   },
 
@@ -124,21 +109,27 @@ const CHECKS = {
     return null;
   },
 
-  "f-link": () => {
-    const v = val("f-link");
-    if(!v) return null;                       // optional
-    try{
-      const u = new URL(v);
-      if(u.protocol !== "http:" && u.protocol !== "https:") throw 0;
-    }catch(e){
-      return "That doesn't look like a web address. It should start with https://";
-    }
+  /* --- everything below is optional --- */
+
+  "f-description": () => {
+    const v = val("f-description");
+    if(!v) return null;
+    const n = words(v);
+    if(n > WORD_LIMIT) return `That's ${n} words. Trim it to ${WORD_LIMIT} or fewer.`;
+    return null;
+  },
+
+  "f-end": () => {
+    if(radio("duration") !== "Limited") return null;
+    const v = val("f-end");
+    if(!v) return "You picked Limited — either add the end date or choose \u201cNot sure\u201d.";
+    if(v < today()) return "That date has already passed. Check it, or pick \u201cNot sure\u201d above.";
     return null;
   },
 
   "f-photo": () => {
     const file = $("f-photo").files[0];
-    if(!file) return null;                    // optional
+    if(!file) return null;
     if(!PHOTO_TYPES.includes(file.type))
       return "Photos need to be JPG, PNG or HEIC.";
     if(file.size > MAX_PHOTO_BYTES)
@@ -147,12 +138,9 @@ const CHECKS = {
   }
 };
 
-/* Radio groups report against a shared message element rather than one input. */
+/* Only the credit choice is still a required radio. Duration and "have you
+   used it" are optional now, so they report nothing when left blank. */
 const RADIO_CHECKS = {
-  "f-duration": () => radio("duration") ? null
-    : "Pick how long it lasts. “Not sure” is a real answer.",
-  "f-used": () => radio("used") ? null
-    : "Tell us whether you've used it — it changes how hard we dig.",
   "f-credit": () => radio("credit") ? null
     : "Choose whether to be credited. Either answer is fine."
 };
@@ -238,23 +226,24 @@ function validateAll(){
    purpose — the column grant excludes them, so a submission can't arrive
    pre-approved or self-promoted up the queue. */
 function payload(){
+  const orNull = v => v || null;   // "" would fail the column's length check
   return {
-    name:            val("f-name"),
-    provider:        val("f-provider"),
-    category:        val("f-category"),
-    description:     val("f-description"),
-    eligibility:     val("f-eligibility"),
-    duration:        radio("duration"),
-    ends:            radio("duration") === "Limited" ? val("f-end") : null,
-    where_used:      val("f-where"),
-    used_personally: radio("used"),
-    link:            val("f-link") || null,
-    redeem:          val("f-redeem") || null,
-    photo_path:      null,
+    link:            val("f-link"),
     first_name:      val("f-first"),
     last_initial:    val("f-initial").toUpperCase(),
     email:           val("f-email").toLowerCase(),
-    credit:          radio("credit") === "yes"
+    credit:          radio("credit") === "yes",
+    name:            orNull(val("f-name")),
+    provider:        orNull(val("f-provider")),
+    category:        orNull(val("f-category")),
+    description:     orNull(val("f-description")),
+    eligibility:     orNull(val("f-eligibility")),
+    duration:        orNull(radio("duration")),
+    ends:            radio("duration") === "Limited" ? orNull(val("f-end")) : null,
+    where_used:      orNull(val("f-where")),
+    used_personally: orNull(radio("used")),
+    redeem:          orNull(val("f-redeem")),
+    photo_path:      null
   };
 }
 
@@ -297,16 +286,19 @@ function showSuccess(row){
   const credited = row.credit
     ? `${row.first_name} ${row.last_initial}.`
     : "a fellow Bruin";
+  // Only the link is guaranteed; show whatever else they chose to give.
+  const rows = [
+    ["Link", `<a href="${escapeHtml(row.link)}" target="_blank" rel="noopener">${escapeHtml(row.link)}</a>`],
+    row.name     && ["Benefit", escapeHtml(row.name)],
+    row.provider && ["Provider", escapeHtml(row.provider)],
+    row.category && ["Category", escapeHtml(row.category)],
+    ["Credit", `Added by ${escapeHtml(credited)}`]
+  ].filter(Boolean);
   box.innerHTML = `
     <h2>Thanks — we've got it.</h2>
-    <p>We'll check it against its source before it goes live. That usually takes a few days,
-       and we'll email you at ${escapeHtml(row.email)} either way.</p>
-    <dl>
-      <dt>Benefit</dt><dd>${escapeHtml(row.name)}</dd>
-      <dt>Provider</dt><dd>${escapeHtml(row.provider)}</dd>
-      <dt>Category</dt><dd>${escapeHtml(row.category)}</dd>
-      <dt>Credit</dt><dd>Added by ${escapeHtml(credited)}</dd>
-    </dl>
+    <p>We'll open that link, check the offer against it, and add it if it holds up.
+       That usually takes a few days, and we'll email you at ${escapeHtml(row.email)} either way.</p>
+    <dl>${rows.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
     <p><a href="index.html">Back to browsing</a></p>`;
   box.hidden = false;
   box.focus();

@@ -97,6 +97,10 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 
 `add.html` + `js/form.js`. Spec is PRD §6.
 
+**Only five things are required: the link, first name, last initial, UCLA email, and the credit choice.** Everything describing the benefit is optional. The earlier version asked a student to fill in twelve fields — roughly two minutes of work to tell us things we can read off the link ourselves. If they give us a URL, we do the rest.
+
+- Optional fields are still format-checked once filled: the description word limit, the photo's type and size, and an end date if they pick Limited.
+- Blank optional fields must be sent as `null`, never `""` — the column length checks reject an empty string but let a null through.
 - Validation runs **on blur and on submit, never on keystroke** — correcting someone mid-word is hostile. Once a field is showing an error it clears as soon as they start fixing it.
 - Errors sit against the field they belong to. Never one generic banner; the line above the button only counts how many fields need attention.
 - "Not sure" is a valid answer for eligibility and duration. Removing that escape doesn't produce better data, it produces confident-looking wrong data.

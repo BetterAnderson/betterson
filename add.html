@@ -31,7 +31,7 @@
   </div>
 
   <div class="page">
-    <p class="pull formintro">We check every submission against its source before it goes live — usually within a few days. Nothing gets published automatically.</p>
+    <p class="pull formintro">Just the link is enough — we'll work out the rest. Nothing goes live until we've checked it against its source, usually within a few days.</p>
 
     <form id="benefitForm" class="form" novalidate>
       <!-- Honeypot. Real people never see this; bots fill everything. -->
@@ -41,7 +41,50 @@
       </div>
 
       <section class="formstep" aria-labelledby="step1">
-        <h2 id="step1"><span class="stepnum">1</span> The benefit</h2>
+        <h2 id="step1"><span class="stepnum">1</span> The essentials</h2>
+
+        <div class="field">
+          <label for="f-link">Link to the benefit</label>
+          <span class="hint">A page that shows the offer — the brand's site, a UCLA page, an Instagram post. This is what we check it against.</span>
+          <input type="url" id="f-link" name="link" placeholder="https://" autocomplete="off">
+          <p class="fielderr" id="f-link-err" hidden></p>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="f-first">First name</label>
+            <input type="text" id="f-first" name="first" autocomplete="given-name">
+            <p class="fielderr" id="f-first-err" hidden></p>
+          </div>
+          <div class="field narrow">
+            <label for="f-initial">Last initial</label>
+            <input type="text" id="f-initial" name="initial" maxlength="1" autocomplete="off">
+            <p class="fielderr" id="f-initial-err" hidden></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-email">UCLA email</label>
+          <span class="hint">@anderson.ucla.edu, @g.ucla.edu or @ucla.edu</span>
+          <input type="email" id="f-email" name="email" autocomplete="email">
+          <p class="fielderr" id="f-email-err" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>Credit me on the listing</legend>
+          <span class="hint">Either answer is fine — we just won't guess.</span>
+          <div class="radios">
+            <label><input type="radio" name="credit" value="yes"> Yes, use my name</label>
+            <label><input type="radio" name="credit" value="no"> No, keep me anonymous</label>
+          </div>
+          <p class="creditpreview" id="f-creditpreview" hidden></p>
+          <p class="fielderr" id="f-credit-err" hidden></p>
+        </fieldset>
+      </section>
+
+      <section class="formstep" aria-labelledby="step2">
+        <h2 id="step2"><span class="stepnum">2</span> Anything else you know</h2>
+        <p class="stepnote">All optional. Skip the lot and we'll work it out from the link — this is only here if you already know the answers.</p>
 
         <div class="field">
           <label for="f-name">Benefit name</label>
@@ -71,8 +114,8 @@
 
         <div class="field">
           <label for="f-description">What you get</label>
-          <span class="hint">Under 200 words. What it is, and what it's worth.</span>
-          <textarea id="f-description" name="description" rows="5"></textarea>
+          <span class="hint">Under 200 words.</span>
+          <textarea id="f-description" name="description" rows="4"></textarea>
           <p class="counter" id="f-wordcount">0 of 200 words</p>
           <p class="fielderr" id="f-description-err" hidden></p>
         </div>
@@ -129,52 +172,6 @@
           </div>
           <p class="fielderr" id="f-used-err" hidden></p>
         </fieldset>
-      </section>
-
-      <section class="formstep" aria-labelledby="step2">
-        <h2 id="step2"><span class="stepnum">2</span> About you</h2>
-
-        <div class="row">
-          <div class="field">
-            <label for="f-first">First name</label>
-            <input type="text" id="f-first" name="first" autocomplete="given-name">
-            <p class="fielderr" id="f-first-err" hidden></p>
-          </div>
-          <div class="field narrow">
-            <label for="f-initial">Last initial</label>
-            <input type="text" id="f-initial" name="initial" maxlength="1" autocomplete="off">
-            <p class="fielderr" id="f-initial-err" hidden></p>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="f-email">UCLA email</label>
-          <span class="hint">@anderson.ucla.edu, @g.ucla.edu or @ucla.edu</span>
-          <input type="email" id="f-email" name="email" autocomplete="email">
-          <p class="fielderr" id="f-email-err" hidden></p>
-        </div>
-
-        <fieldset class="field">
-          <legend>Credit me on the listing</legend>
-          <span class="hint">Either answer is fine — we just won't guess.</span>
-          <div class="radios">
-            <label><input type="radio" name="credit" value="yes"> Yes, use my name</label>
-            <label><input type="radio" name="credit" value="no"> No, keep me anonymous</label>
-          </div>
-          <p class="creditpreview" id="f-creditpreview" hidden></p>
-          <p class="fielderr" id="f-credit-err" hidden></p>
-        </fieldset>
-      </section>
-
-      <section class="formstep" aria-labelledby="step3">
-        <h2 id="step3">Optional</h2>
-
-        <div class="field">
-          <label for="f-link">Link</label>
-          <span class="hint">Where you found it. This is what we check against.</span>
-          <input type="url" id="f-link" name="link" placeholder="https://" autocomplete="off">
-          <p class="fielderr" id="f-link-err" hidden></p>
-        </div>
 
         <div class="field">
           <label for="f-redeem">How to redeem it</label>

@@ -12,18 +12,22 @@ create table if not exists public.benefit_submissions (
   status           text not null default 'submitted'
                    check (status in ('submitted','reviewing','live','rejected')),
 
-  -- the benefit
-  name             text not null check (char_length(name) between 1 and 200),
-  provider         text not null check (char_length(provider) between 1 and 200),
-  category         text not null check (category in
+  -- The link is the only thing we can't work out ourselves, so it's the only
+  -- part of the benefit that's required. Everything else is optional: a
+  -- student pastes a URL, we read the offer off it.
+  link             text not null check (link ~* '^https?://' and char_length(link) <= 2000),
+
+  -- the benefit, all optional
+  name             text check (char_length(name) between 1 and 200),
+  provider         text check (char_length(provider) between 1 and 200),
+  category         text check (category in
                      ('Dining','Shopping','Experience','Transportation','Social Support')),
-  description      text not null check (char_length(description) between 1 and 4000),
-  eligibility      text not null,
-  duration         text not null check (duration in ('Ongoing','Limited','Not sure')),
+  description      text check (char_length(description) between 1 and 4000),
+  eligibility      text,
+  duration         text check (duration in ('Ongoing','Limited','Not sure')),
   ends             date,
-  where_used       text not null check (where_used in ('On campus','Off campus','Virtual')),
-  used_personally  text not null,
-  link             text check (link is null or char_length(link) <= 2000),
+  where_used       text check (where_used in ('On campus','Off campus','Virtual')),
+  used_personally  text,
   redeem           text check (redeem is null or char_length(redeem) <= 500),
   photo_path       text,
 
