@@ -39,18 +39,21 @@ docs/PRD.md           Full product spec
 
 ## What's real and what isn't
 
-- **The catalog is real.** 54 verified listings, each with a working source link.
-- **Anderson-only benefits are thin.** Four entries so far. The rest have to be pulled from internal channels rather than the public web, and they are the most valuable content the site could carry.
-  web — someone on the team has to pull them from internal channels. This is the
-  most valuable missing content.
-- **The Add a benefit form works, but submissions go nowhere yet.** Every field
-  validates, the UCLA email domain check is live, and the success state is real —
-  but `submitBenefit()` in `js/form.js` still needs a Supabase call behind it.
-  Nothing is stored today.
-- **Email validation is client-side only.** A production version would have to
-  re-check the domain server-side and send a confirmation email; a check that runs
-  in the browser is trivially bypassed. Submissions are also never auto-published —
-  they land as `status: submitted` for a human to review.
+- **The catalog is real.** 53 verified listings, each with a working source link.
+- **Anderson-only benefits are thin.** Three entries so far. The rest aren't on
+  the public web — someone on the team has to pull them from internal channels.
+  This is the most valuable missing content.
+- **The Add a benefit form is live.** `submitBenefit()` in `js/form.js` posts to
+  Supabase with plain `fetch` — no client library, nothing loaded at page open.
+  Submissions are stored today.
+- **The browser's checks are a courtesy; the database holds the line.** Supabase
+  re-checks the email domain, category, duration, location and initial, so a
+  forged request fails at the server rather than at the form. `trusted` is
+  computed from the domain by the database, never sent by the browser. A
+  production version would still send a confirmation email.
+- **Nothing in Supabase reaches the site.** The catalog is `data/benefits.json`
+  in this repo, and `js/app.js` never mentions Supabase. A submission becomes a
+  listing only when a human verifies it against a source and commits it.
 - **For businesses takes enquiries by email, not a form.** Nothing is being sold
   yet, so a form asking for budget ranges would imply a pipeline that doesn't
   exist. The audience statistics block is deliberately empty until someone pulls
