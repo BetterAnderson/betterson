@@ -406,6 +406,9 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
   color:var(--navy-deep);margin:0 0 14px
 }
 .page p{color:var(--ink-soft);margin:0 0 14px;max-width:60ch;font-size:17px}
+/* For a single sentence in a wide column, 60ch isn't a reading measure, it's
+   just an early line break. Only for one-liners — running paragraphs keep it. */
+.page p.oneline{max-width:86ch}
 .page p:last-child{margin-bottom:0}
 .page p.pull{font-size:19.5px;line-height:1.45;color:var(--ink)}
 .page strong{color:var(--navy-deep);font-weight:600}
@@ -484,7 +487,10 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 }
 .mini p{font-size:14.5px;margin:0;color:var(--ink-soft)}
 
-.pledge{list-style:none;margin:0;padding:0;max-width:60ch}
+/* Checklist items are single sentences, not running text. At 60ch the longest
+   one wrapped a two-letter word onto a line of its own with 500px of column
+   sitting empty beside it. */
+.pledge{list-style:none;margin:0;padding:0;max-width:74ch}
 .pledge li{
   position:relative;padding-left:30px;margin-bottom:11px;
   color:var(--ink-soft);font-size:17px
