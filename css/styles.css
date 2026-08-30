@@ -459,19 +459,14 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 .member .mlinks a:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
 .member .fact{margin-top:10px;font-size:14.5px;color:var(--ink-soft);font-style:italic}
 
-/* Three facts, stated as numbers rather than sentences. */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 52px}
-.stat{
-  background:var(--surface);border:1px solid var(--rule);
-  border-top:4px solid var(--blue-bright);
-  border-radius:var(--radius-card);padding:18px 20px
-}
-.stat b{
-  display:block;font-family:Archivo,sans-serif;font-weight:700;
-  font-size:28px;line-height:1;letter-spacing:-.02em;
-  color:var(--navy-deep);margin-bottom:6px
-}
-.stat span{font-size:14.5px;color:var(--ink-soft);display:block}
+/* The argument the whole site rests on, so it gets the page rather than
+   sharing a row with a 236px heading column like the sections beneath it.
+   Set in type, not in a panel — the boxes that used to sit here were the
+   reason this page led with decoration instead of the point. */
+.solving{margin-bottom:58px}
+.solving > h2{font-size:clamp(27px,3.4vw,38px);margin-bottom:20px}
+.solving p.pull{font-size:clamp(18px,1.5vw,20.5px);line-height:1.5;max-width:70ch}
+.solving p.pull + p.pull{margin-top:16px}
 
 .minigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
 /* The option worth leading with, marked rather than boxed off on its own. */
