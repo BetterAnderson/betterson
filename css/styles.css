@@ -110,6 +110,12 @@ body{
 .topnav a[aria-current="page"]{background:var(--gold);color:var(--navy-deep);font-weight:700}
 .topnav a:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
 
+/* Search and categories stay put together while the results scroll under them.
+   The wrapper is what sticks; the bars inside are static so their own sticky
+   offsets can't fight it. */
+.stickyhead{position:sticky;top:0;z-index:50}
+.stickyhead .topbar{position:static;z-index:auto}
+
 /* ---------- category bar (the signature tiles, compact) ---------- */
 .catbar{background:var(--surface);border-bottom:1px solid var(--rule);padding:14px 0 16px}
 .tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
@@ -179,7 +185,11 @@ body{
 }
 
 /* ---------- sidebar filters ---------- */
-.sidebar{position:sticky;top:calc(var(--topbar-h) + 16px)}
+/* Clears whatever the sticky header currently measures — the top bar alone on
+   other pages, top bar plus categories here, and taller again when the bar
+   wraps. app.js keeps --stickyhead-h in sync; the fallback covers it until the
+   first measurement lands. */
+.sidebar{position:sticky;top:calc(var(--stickyhead-h, var(--topbar-h)) + 16px)}
 .sidebar-head{
   display:flex;justify-content:space-between;align-items:baseline;
   gap:10px;padding:0 0 10px;border-bottom:1px solid var(--rule);margin-bottom:14px
@@ -655,12 +665,29 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 @media (max-width:1023px){
   .topbar-inner{gap:16px}
   .topnav a{padding:0 10px;font-size:13.5px}
-  .tiles{grid-template-columns:repeat(2,1fr)}
-  .tile[data-key="all"]{grid-column:1 / -1;min-height:56px}
-  /* "all" spans the row, so an even tile count leaves the last one orphaned in
-     a half-width cell. Let it span instead. Self-adjusting if a category is
-     added or removed. */
-  .tile:last-child:nth-child(even){grid-column:1 / -1}
+  /* Below the desktop row, a grid of six costs three rows — over 300px, and
+     now permanently on screen because the bar is sticky. One scrolling row
+     instead: 46px tall, every category still a single tap away, and a chip
+     cut off at the right edge is the cue that the row keeps going.
+     The count moves beside the name rather than under it, which is what
+     halves the height. */
+  .tiles{
+    display:flex;grid-template-columns:none;gap:8px;
+    overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none
+  }
+  .tiles::-webkit-scrollbar{display:none}
+  .tile{
+    flex:0 0 auto;scroll-snap-align:start;
+    min-height:46px;padding:9px 15px;gap:9px;border-radius:18px
+  }
+  /* A hover lift inside a horizontal scroller reads as a wobble. */
+  .tile:hover{transform:none}
+  .tile svg{width:19px;height:19px}
+  .tile .t-text{flex-direction:row;align-items:baseline;gap:6px}
+  .tile .t-name{font-size:15px}
+  .tile .t-count{margin-top:0}
   .layout{grid-template-columns:206px 1fr;gap:22px}
   .grid{grid-template-columns:1fr}
   .kv{grid-template-columns:1fr;gap:3px 0}
@@ -681,13 +708,22 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
   .topnav{order:2;flex:1 1 100%;justify-content:center;margin-left:0;gap:0}
   .topnav a{padding:0 9px;font-size:13px;min-height:38px}
 
-  .catbar{padding:12px 0 14px}
-  .tile{min-height:62px;padding:10px 14px;border-radius:20px}
-  .tile .t-name{font-size:15.5px}
+  /* Let the brand and nav rows scroll away; search and categories stay. See
+     trackStickyHead() in js/app.js for where the offset comes from. */
+  .stickyhead{top:calc(-1 * var(--head-offset, 0px))}
+
+  .catbar{padding:10px 0 11px}
+  /* Chips already; just a touch tighter and the gutter bled to the screen edge
+     so a half-visible chip reads as "scroll me" rather than as a cut-off. */
+  .tiles{
+    gap:7px;
+    padding-inline:16px;margin-inline:-16px;
+    scroll-padding-left:16px
+  }
+  .tile{padding:9px 13px}
 
   .hero{padding:18px 0 2px}
   .lede{font-size:16px}
-  .stats{grid-template-columns:1fr;gap:10px;margin-bottom:38px}
   .member .mlinks a{width:44px;height:44px;margin-left:-12px}
   .section{margin-bottom:38px}
   .feature{padding:20px}

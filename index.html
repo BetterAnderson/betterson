@@ -11,6 +11,11 @@
 </head>
 <body>
 
+<!-- Search and categories travel together, so switching category never means
+     scrolling back to the top. One sticky wrapper rather than two sticky
+     siblings: the second would need to know the first's exact height, and the
+     top bar's height changes when it wraps on a phone. -->
+<div class="stickyhead">
 <header class="topbar">
   <div class="wrap topbar-inner">
     <a class="brand" href="index.html">Betterson</a>
@@ -34,6 +39,7 @@
     <nav class="tiles" id="tiles" aria-label="Filter by category"></nav>
   </div>
 </section>
+</div>
 
 <div class="wrap">
   <h1 class="sr-only">Betterson — benefits you already have as an Anderson student</h1>

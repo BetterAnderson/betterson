@@ -246,7 +246,74 @@ function renderTiles(){
     state.cat = (state.cat===b.dataset.key && b.dataset.key!=="all") ? "all" : b.dataset.key;
     render();
   }));
+  keepActiveTileInView();
+  syncHeadMetrics();   // the tiles just changed the sticky header's height
 }
+
+/* Below 1024px the tiles are one horizontally scrolling row, so the selected
+   one can sit off-screen — on load from a shared link, or after picking a
+   category further along the row. Nudge it back into view. Horizontal only:
+   scrollIntoView() would also drag the page vertically. */
+function keepActiveTileInView(){
+  const row = $("tiles");
+  const active = row.querySelector('.tile[aria-pressed="true"]');
+  if(!active || row.scrollWidth <= row.clientWidth) return;
+  /* Measured against the row's own box rather than offsetLeft: the tiles are
+     position:relative and the sticky header is a positioned ancestor, so
+     offsetParent isn't the scroller and offsetLeft measures from the wrong
+     origin. Rect maths doesn't care what the offsetParent is. */
+  const pad = 16;
+  const rowBox = row.getBoundingClientRect();
+  const box = active.getBoundingClientRect();
+  const left = row.scrollLeft + (box.left - rowBox.left) - pad;
+  const right = row.scrollLeft + (box.right - rowBox.left) + pad;
+  if(left < row.scrollLeft){
+    row.scrollTo({left});
+  }else if(right > row.scrollLeft + row.clientWidth){
+    row.scrollTo({left: right - row.clientWidth});
+  }
+}
+
+/* The sticky header is a different height on every page and changes again when
+   the top bar wraps on a phone, so anything that has to clear it reads this
+   rather than a constant. Assigned by trackStickyHead(); a no-op on pages that
+   have no sticky header. */
+let syncHeadMetrics = () => {};
+
+function trackStickyHead(){
+  const head = document.querySelector(".stickyhead");
+  if(!head) return;
+  const root = document.documentElement;
+  syncHeadMetrics = () => {
+    root.style.setProperty("--stickyhead-h", head.offsetHeight + "px");
+    /* On a phone the top bar wraps to three rows and the whole header would
+       pin 233px of an 812px screen. So the brand and nav rows are allowed to
+       scroll away and only the search and categories stay, via a negative
+       sticky top of exactly that much. The gap between the header's top and
+       the search box doesn't change as the header sticks — both move
+       together — so this holds at any scroll position. Used only below
+       768px; above it the search shares the first row and the offset is
+       nearly nothing. */
+    const search = head.querySelector(".search");
+    const off = search
+      ? Math.max(0, Math.round(search.getBoundingClientRect().top - head.getBoundingClientRect().top))
+      : 0;
+    root.style.setProperty("--head-offset", off + "px");
+  };
+  /* Measured from the events that actually change the height rather than from
+     a ResizeObserver alone: the tiles arrive with the catalog, so the header
+     is ~70px shorter at first paint than it will be a moment later, and a
+     stale reading leaves the sidebar tucked under the bar. renderTiles() calls
+     this once the tiles are in. RO stays on as a backstop where it works — it
+     is silently inert in some engines, which is why it can't be the only one. */
+  syncHeadMetrics();
+  addEventListener("resize", syncHeadMetrics);
+  addEventListener("orientationchange", syncHeadMetrics);
+  // Fonts land after first paint and change the wrapped height of the top bar.
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeadMetrics);
+  if("ResizeObserver" in window) new ResizeObserver(syncHeadMetrics).observe(head);
+}
+trackStickyHead();
 
 /* Facets are drawn twice — in the sidebar for wide screens, and inside the
    filter sheet for phones. Both read the same state, so they can't drift. */
