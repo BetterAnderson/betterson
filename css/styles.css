@@ -459,14 +459,20 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 .member .mlinks a:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
 .member .fact{margin-top:10px;font-size:14.5px;color:var(--ink-soft);font-style:italic}
 
-/* The argument the whole site rests on, so it gets the page rather than
-   sharing a row with a 236px heading column like the sections beneath it.
-   Set in type, not in a panel — the boxes that used to sit here were the
-   reason this page led with decoration instead of the point. */
-.solving{margin-bottom:58px}
-.solving > h2{font-size:clamp(27px,3.4vw,38px);margin-bottom:20px}
-.solving p.pull{font-size:clamp(18px,1.5vw,20.5px);line-height:1.5;max-width:70ch}
-.solving p.pull + p.pull{margin-top:16px}
+/* About reads as one continuous argument, so its sections share a heading size
+   and a measure and stack straight down the page. They opt out of the 236px
+   heading column the other content pages use — it can't hold type this large
+   without breaking three words across three lines. Set in type, not in panels:
+   the stat boxes that used to open this page were the reason it led with
+   decoration instead of the point. */
+.essay .section{margin-bottom:58px}
+.essay .section > h2{font-size:clamp(27px,3.4vw,38px);margin-bottom:20px}
+.essay p.pull{font-size:clamp(18px,1.5vw,20.5px);line-height:1.5;max-width:70ch}
+.essay p.pull + p.pull{margin-top:16px}
+/* Full width, auto-fill opened four columns for two people and left half the
+   row empty. Cap the grid instead of stretching the cards — a profile at
+   500px wide is a banner, not a profile. A third person wraps to a new row. */
+.essay .teamgrid{max-width:560px}
 
 .minigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
 /* The option worth leading with, marked rather than boxed off on its own. */
