@@ -133,6 +133,17 @@ function publishable(d){
    implying you could go and use it this afternoon. */
 const notYetOpen = d => !!d.starts && d.starts > today();
 
+/* `n` stays a plain string, but a blank line inside it starts a new paragraph.
+   Some entries carry a caveat that applies to a different reader than the rest
+   of the note, and running it on to the end buries it. Each part is escaped on
+   its own, so splitting can't be used to smuggle markup through. */
+function notes(n){
+  if(!n) return "";
+  return String(n).split(/\n\s*\n/)
+    .map(s => s.trim()).filter(Boolean)
+    .map(s => `<p class="note">${esc(s)}</p>`).join("");
+}
+
 /* ---------- rendering ---------- */
 function shortDate(s){
   const [y,m,dd] = s.split("-");
@@ -434,7 +445,7 @@ function openSheet(id, push=true){
       <dt>How long</dt><dd>${notYetOpen(d)?`Starts ${shortDate(d.starts)} · `:""}${esc(d.d)}${d.exp?` · ends ${esc(d.exp)}`:""}</dd>
       <dt>Category</dt><dd>${esc(d.c)}</dd>
     </dl>
-    ${d.n?`<p class="note">${esc(d.n)}</p>`:""}
+    ${notes(d.n)}
     <div class="sheetfoot">
       ${d.u?`<a class="btn btn-primary" href="${esc(d.u)}" target="_blank" rel="noopener">Open the source</a>`:""}
       <button class="btn btn-ghost" id="closeSheet" type="button">Close</button>

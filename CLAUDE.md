@@ -166,6 +166,7 @@ Every benefit in `benefits.json`:
 - `d` (duration) is Ongoing or Limited. Limited **requires** `exp`, and expired entries must never render.
 - `starts` is optional and mirrors `exp`: the first date a seasonal offer can actually be used. A future `starts` still renders, but the duration tag becomes *Starts Sep 9* instead of *Limited*, so a promo that can't trigger until the NFL season opens doesn't read as available today. It self-corrects on the date — no cleanup.
 - `vd` is the last-verified date and displays on every card. This is the product's core trust mechanism — never render a listing without it.
+- `n` (notes) is one string, but **a blank line inside it starts a new paragraph** in the detail view. For a caveat aimed at a different reader than the rest of the note — run on to the end, it gets buried. Each paragraph is escaped separately, so this can't smuggle markup.
 - `lat` / `lng` are nullable placeholders for a future map. Leave them in.
 
 Both trust rules are enforced in code, not by memory: `publishable()` in `js/app.js` drops any entry missing `vd` or past its `exp` before the page ever sees it. Keep that gate — it's why a benefit going stale can't quietly stay on screen.
