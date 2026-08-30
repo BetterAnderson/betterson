@@ -247,8 +247,32 @@ function renderTiles(){
     render();
   }));
   keepActiveTileInView();
+  updateTileFades();
   syncHeadMetrics();   // the tiles just changed the sticky header's height
 }
+
+/* Which edge of the chip row still has chips behind it. Above 1024px the row
+   is a grid and never overflows, so both come off and the fades never show. */
+function updateTileFades(){
+  const row = $("tiles");
+  const bar = row && row.closest(".catbar");
+  if(!bar) return;
+  const max = row.scrollWidth - row.clientWidth;
+  const slack = 2;                     // sub-pixel widths never land exactly
+  const scrolls = max > slack;
+  bar.classList.toggle("more-left",  scrolls && row.scrollLeft > slack);
+  bar.classList.toggle("more-right", scrolls && row.scrollLeft < max - slack);
+}
+
+/* The row itself outlives every re-render — renderTiles() only replaces its
+   children — so this binds once. */
+(function watchTileScroll(){
+  const row = $("tiles");
+  if(!row) return;
+  row.addEventListener("scroll", updateTileFades, {passive:true});
+  addEventListener("resize", updateTileFades);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(updateTileFades);
+})();
 
 /* Below 1024px the tiles are one horizontally scrolling row, so the selected
    one can sit off-screen — on load from a shared link, or after picking a

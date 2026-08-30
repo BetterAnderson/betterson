@@ -678,6 +678,27 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
     scrollbar-width:none
   }
   .tiles::-webkit-scrollbar{display:none}
+
+  /* The row dissolves into the bar at whichever edge still has chips behind
+     it, so it reads as continuing rather than ending. Painted on the bar, not
+     the row, so the fade reaches the screen edge past the row's bled gutter.
+     Shown only when there is actually something that way — a fade still lit at
+     the end of the row promises chips that aren't there. js/app.js sets the
+     classes; the peek does the rest, and where a chip happens to land flush
+     the fade makes it read as cut anyway.
+     Fading to rgba(255,255,255,0) rather than `transparent`, which some
+     engines interpolate through grey and leave a dirty smear on white. */
+  .catbar{position:relative}
+  .catbar::before,
+  .catbar::after{
+    content:"";position:absolute;top:0;bottom:0;width:34px;
+    pointer-events:none;z-index:2;opacity:0;transition:opacity .18s ease
+  }
+  .catbar::before{left:0; background:linear-gradient(to right,var(--surface),rgba(255,255,255,0))}
+  .catbar::after {right:0;background:linear-gradient(to left, var(--surface),rgba(255,255,255,0))}
+  .catbar.more-left::before{opacity:1}
+  .catbar.more-right::after{opacity:1}
+
   .tile{
     flex:0 0 auto;scroll-snap-align:start;
     min-height:46px;padding:9px 15px;gap:9px;border-radius:18px
