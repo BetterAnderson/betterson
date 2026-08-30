@@ -369,6 +369,15 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 
 /* ---------- content pages (About / Add / For businesses) ---------- */
 .page{padding:26px 0 72px;max-width:1020px}
+
+/* Add a benefit is a single narrow column with no second column to balance it,
+   so on a wide screen it strands itself against the left edge. Centre the
+   column and the short heading above it. Field labels stay left-aligned —
+   centred labels make a form harder to scan, not friendlier. */
+.page.centered{max-width:60ch;margin-inline:auto}
+.page.centered .form{max-width:none}
+.hero.center{text-align:center;max-width:60ch;margin-inline:auto}
+.hero.center .lede{max-width:none}
 .section{margin:0 0 52px}
 .section:last-child{margin-bottom:0}
 
@@ -604,7 +613,11 @@ dialog::backdrop{background:rgba(0,7,41,.55);backdrop-filter:blur(3px)}
 
 @media (max-width:767px){
   .formstep{padding:20px 18px}
-  .row{flex-direction:column;gap:0}
+  /* Stacked, both fields run the full width. The parent sets align-items to
+     flex-start for the side-by-side case, which in a column makes each field
+     shrink to its own content — First name ended up narrower than Last
+     initial, which is exactly backwards. */
+  .row{flex-direction:column;gap:0;align-items:stretch}
   .row .narrow{flex:1 1 auto;width:100%}
   .formfoot .btn{width:100%;justify-content:center}
 }

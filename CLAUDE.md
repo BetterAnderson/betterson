@@ -97,13 +97,14 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 
 `add.html` + `js/form.js`. Spec is PRD §6.
 
-**Only five things are required: the link, first name, last initial, UCLA email, and the credit choice.** Everything describing the benefit is optional. The earlier version asked a student to fill in twelve fields — roughly two minutes of work to tell us things we can read off the link ourselves. If they give us a URL, we do the rest.
+**The form asks five things and nothing else: the link, first name, last initial, UCLA email, and the credit choice.** It once asked twelve — roughly two minutes of work to tell us things we can read off the link ourselves. Then those twelve became optional, which shortened nothing: the page still scrolled, and a student still had to decide, field by field, that they were allowed to skip it. So they're gone. If they give us a URL, we do the rest.
 
-- Optional fields are still format-checked once filled: the description word limit, the photo's type and size, and an end date if they pick Limited.
-- Blank optional fields must be sent as `null`, never `""` — the column length checks reject an empty string but let a null through.
+**Don't add a field back without a reason that survives the question "could we get this from the link?"** For almost anything describing the benefit, the answer is yes.
+
+- The columns for the removed fields still exist in Supabase, nullable and dormant — see "How a submission becomes a listing". They hold data from earlier submissions, so don't drop them. The form simply omits them rather than sending nulls; an absent column is the honest way to say we didn't ask.
+- The photo upload went with them, so `submission-photos` in Storage is unused. `js/form.js` no longer touches Storage at all.
 - Validation runs **on blur and on submit, never on keystroke** — correcting someone mid-word is hostile. Once a field is showing an error it clears as soon as they start fixing it.
 - Errors sit against the field they belong to. Never one generic banner; the line above the button only counts how many fields need attention.
-- "Not sure" is a valid answer for eligibility and duration. Removing that escape doesn't produce better data, it produces confident-looking wrong data.
 - Credit is a required radio with no default, and shows the exact line the listing will carry — *Added by Jane D.* or *Added by a fellow Bruin*.
 - Email must end in `@anderson.ucla.edu`, `@g.ucla.edu` or `@ucla.edu`. Checked with a full-segment match, so `@fake.ucla.edu` and `@ucla.edu.evil.com` are both rejected. `trusted` is computed by the database from the domain, not sent by the browser — a submitter can't promote themselves up the queue.
 - Spam: a honeypot (`#website`) and a 60-second rate limit. A filled honeypot shows the success screen and stores nothing — never tell a bot it failed.
@@ -117,13 +118,13 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 Approving one is manual, on purpose:
 
 1. Read the submission in the Supabase dashboard.
-2. **Verify it against a real source.** This is the work. A submission is a claim; a listing needs a working `u` and a `vd`. The form's link field is optional, so plenty arrive with nothing to check — find the source or drop the entry.
+2. **Verify it against a real source.** This is the work. A submission is a claim; a listing needs a working `u` and a `vd`. Every submission now carries a link — the database requires one — but a link that loads is not a link that supports the claim. Read it before you believe it.
 3. Add it to `data/benefits.json` (or to Laura's Airtable, which generates it).
 4. Commit and push.
 
 Left manual deliberately: volume is low, and a script that publishes unverified entries would break the one rule the product is built on. When it's worth automating, `scripts/import.js` should merge the Airtable export with approved Supabase rows — keeping `benefits.json` as what the site reads, so the catalog survives Supabase having a bad day. That script would need a key that can read, i.e. `service_role`, in an environment variable and never in the repo.
 
-- **Storage:** live. `submitBenefit()` posts to Supabase with plain `fetch` — no client library, nothing loaded at page open. The publishable key is in client code on purpose; RLS carries the weight. The database re-checks the email domain, category, duration, location and initial, so the browser check is a courtesy and the database check is the one that holds. Production would still want a confirmation email.
+- **Storage:** live. `submitBenefit()` posts to Supabase with plain `fetch` — no client library, nothing loaded at page open. The publishable key is in client code on purpose; RLS carries the weight. The database re-checks the email domain, the link, and the initial, so the browser check is a courtesy and the database check is the one that holds. The constraints on the dormant columns stay too, in case a field ever comes back. Production would still want a confirmation email.
 
 ## Data shape
 
