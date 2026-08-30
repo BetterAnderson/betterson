@@ -446,7 +446,7 @@
     "e": "Grad student",
     "d": "Ongoing",
     "loc": "On campus",
-    "r": "Print at the GSRC, Student Activities Center B11 — or at Anderson: Rosenfeld Library E2.12 and E2.11, Business Centers A3.03 and D2.12",
+    "r": "Print at the GSRC, Student Activities Center B11",
     "u": "https://gsrc.ucla.edu/services/free-printing",
     "vd": "2026-08-29",
     "starts": null,
@@ -454,6 +454,25 @@
     "lat": null,
     "lng": null,
     "n": "Registered graduate students only. Resets quarterly."
+  },
+  {
+    "id": "anderson-print-quota",
+    "t": "Free printing at Anderson",
+    "p": "Anderson IT",
+    "c": "Shopping",
+    "ic": "ucla",
+    "v": "A print quota you are not charged for, refreshed every quarter",
+    "e": "Anderson",
+    "d": "Ongoing",
+    "loc": "On campus",
+    "r": "Print from your laptop on eduroam or a lab desktop, then log in at the release station beside the printer — Rosenfeld Library E2.12 and E2.11, Business Centers A3.03 and D2.12",
+    "u": "https://it.anderson.ucla.edu/support/solutions/articles/6000014507-Student-Printing-Print-Costs",
+    "vd": "2026-08-29",
+    "starts": null,
+    "exp": null,
+    "lat": null,
+    "lng": null,
+    "n": "Black and white draws $0.04 a page, or $0.06 for a double-sided sheet; a colour job draws $0.20 a page whether or not you actually use colour, and must be sent from A3.03 or D2.12. The quota refreshes each quarter — incoming full-time MBAs get summer and fall combined. Unprinted jobs clear from the queue after 8 hours."
   },
   {
     "id": "sac-lab-free-printing",
@@ -779,11 +798,6 @@
     "n": "Triggers the day after the Ducks win at home, breakfast hours only. LA, Orange County and Palm Springs areas. The Ducks' home opener is 4 October 2026, so the first chance to use it is the day after."
   },
   {
-    "starts": null,
-    "exp": null,
-    "lat": null,
-    "lng": null,
-    "vd": "2026-08-29",
     "id": "cool-la-ac-rebate",
     "t": "Cool LA air conditioner rebate",
     "p": "LADWP",
@@ -795,14 +809,14 @@
     "loc": "Off campus",
     "r": "Buy through the Cool LADWP marketplace and claim the rebate",
     "u": "https://cool-ladwp.enervee.com/",
-    "n": "Income-qualified LADWP customers only. $50 standard marketplace rebate plus a $225 limited-time Cool LA top-up, on Energy Star window and through-the-wall units and Title 20 portable units. The $225 portion is time-limited — check the site for the current window."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Income-qualified LADWP customers only. $50 standard marketplace rebate plus a $225 limited-time Cool LA top-up, on Energy Star window and through-the-wall units and Title 20 portable units. The $225 portion is time-limited — check the site for the current window."
+  },
+  {
     "id": "ucla-library-equipment-lending",
     "t": "Borrow a laptop, camera or projector",
     "p": "UCLA Library",
@@ -814,14 +828,14 @@
     "loc": "On campus",
     "r": "Reserve or ask at a UCLA Library service desk",
     "u": "https://www.library.ucla.edu/help/services-resources/equipment-lending/",
-    "n": "The Library lends technology to support learning and research. Availability and loan length vary by item and location."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "The Library lends technology to support learning and research. Availability and loan length vary by item and location."
+  },
+  {
     "id": "ucla-bike-shop",
     "t": "UCLA Bike Shop",
     "p": "UCLA Recreation",
@@ -833,14 +847,14 @@
     "loc": "On campus",
     "r": "Visit the shop or book a class through UCLA Recreation",
     "u": "https://recreation.ucla.edu/rec-programs/outdoor-adventures/bike-shop",
-    "n": "Fee-for-service rather than free: repairs, bikes to buy or rent, DIY workshop space, maintenance classes, and instruction on commuting and campus bike services."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Fee-for-service rather than free: repairs, bikes to buy or rent, DIY workshop space, maintenance classes, and instruction on commuting and campus bike services."
+  },
+  {
     "id": "marina-aquatic-center",
     "t": "Marina Aquatic Center",
     "p": "UCLA Recreation",
@@ -852,14 +866,14 @@
     "loc": "Off campus",
     "r": "Book through UCLA Recreation",
     "u": "https://recreation.ucla.edu/rec-programs/marina-aquatic-center",
-    "n": "Sailing, kayaking, rowing and paddleboarding out of Marina del Rey."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Sailing, kayaking, rowing and paddleboarding out of Marina del Rey."
+  },
+  {
     "id": "bruins-esports-lounge",
     "t": "Bruins Esports & Gaming Lounge",
     "p": "UCLA Recreation",
@@ -871,14 +885,14 @@
     "loc": "On campus",
     "r": "Drop in at Ackerman Union A-level, near the post office",
     "u": "https://recreation.ucla.edu/begl",
-    "n": "Not free — campus affiliates pay $5 for an hour, $14 for three, $22 for five, $80 for twenty, or $199 for unlimited access in a quarter. 30 Alienware desktops and 3 console stations."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Not free — campus affiliates pay $5 for an hour, $14 for three, $22 for five, $80 for twenty, or $199 for unlimited access in a quarter. 30 Alienware desktops and 3 console stations."
+  },
+  {
     "id": "headspace-student",
     "t": "Headspace Student Plan",
     "p": "Headspace",
@@ -890,14 +904,14 @@
     "loc": "Virtual",
     "r": "Verify your enrollment through SheerID on Headspace's student page",
     "u": "https://www.headspace.com/studentplan",
-    "n": "No school email needed; SheerID verifies instantly for most universities, otherwise you upload proof of enrollment. Re-verified each year, then 40% off for a year after you graduate."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "No school email needed; SheerID verifies instantly for most universities, otherwise you upload proof of enrollment. Re-verified each year, then 40% off for a year after you graduate."
+  },
+  {
     "id": "ynab-student-free-year",
     "t": "A free year of YNAB",
     "p": "YNAB",
@@ -909,14 +923,14 @@
     "loc": "Virtual",
     "r": "Send YNAB a document showing you're currently enrolled",
     "u": "https://www.ynab.com/college",
-    "n": "Budgeting app. Open to grad students, international students and part-time students. A student ID, transcript or tuition statement works as proof."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Budgeting app. Open to grad students, international students and part-time students. A student ID, transcript or tuition statement works as proof."
+  },
+  {
     "id": "doordash-student-dashpass",
     "t": "DashPass at the student rate",
     "p": "DoorDash",
@@ -928,14 +942,14 @@
     "loc": "Off campus",
     "r": "Sign up on DoorDash's student page and verify your enrollment",
     "u": "https://help.doordash.com/en-us/consumers/article/dashpass-for-students",
-    "n": "DoorDash is running the student plan free for 12 months for anyone who joins between 17 August and 12 October 2026 — after that window it reverts to the $4.99 rate. One plan per person, and it can't be moved to another account."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "DoorDash is running the student plan free for 12 months for anyone who joins between 17 August and 12 October 2026 — after that window it reverts to the $4.99 rate. One plan per person, and it can't be moved to another account."
+  },
+  {
     "id": "hulu-disney-student-bundle",
     "t": "Disney+ and Hulu student bundle",
     "p": "Hulu",
@@ -947,14 +961,14 @@
     "loc": "Virtual",
     "r": "Verify through SheerID when you sign up for the bundle",
     "u": "https://www.hulu.com/student",
-    "n": "Hulu plus Disney+ with ads, and select ESPN college football on Disney+. No free trial on this plan, and you re-verify every year."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Hulu plus Disney+ with ads, and select ESPN college football on Disney+. No free trial on this plan, and you re-verify every year."
+  },
+  {
     "id": "nike-student-discount",
     "t": "10% off at Nike",
     "p": "Nike",
@@ -966,14 +980,14 @@
     "loc": "Virtual",
     "r": "Verify your student status, then use the single-use code at checkout",
     "u": "https://www.nike.com/help/a/student-discount",
-    "n": "US students, 16 or over. Each verification gives one single-use code, and you need to be signed in to a Nike member account."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "US students, 16 or over. Each verification gives one single-use code, and you need to be signed in to a Nike member account."
+  },
+  {
     "id": "anderson-linkedin-learning",
     "t": "LinkedIn Learning",
     "p": "UCLA Anderson Parker Career Center",
@@ -985,14 +999,14 @@
     "loc": "Virtual",
     "r": "Sign in to the Parker Portal with your Anderson account",
     "u": "https://ucla.sharepoint.com/sites/ParkerPortal/SitePages/Recruiting-Tools.aspx",
-    "n": "Listed among the Parker Career Center's recruiting tools. The portal requires an Anderson login, so the link goes to the sign-in rather than a public description."
-  },
-  {
+    "vd": "2026-08-29",
     "starts": null,
     "exp": null,
     "lat": null,
     "lng": null,
-    "vd": "2026-08-29",
+    "n": "Listed among the Parker Career Center's recruiting tools. The portal requires an Anderson login, so the link goes to the sign-in rather than a public description."
+  },
+  {
     "id": "anderson-ai-tools",
     "t": "Claude and ChatGPT through Anderson",
     "p": "UCLA Anderson",
@@ -1004,6 +1018,11 @@
     "loc": "Virtual",
     "r": "Sign in at aoai.anderson.ucla.edu with your Anderson account",
     "u": "https://aoai.anderson.ucla.edu/auth/jwt/login",
+    "vd": "2026-08-29",
+    "starts": null,
+    "exp": null,
+    "lat": null,
+    "lng": null,
     "n": "Anderson runs its own gateway to these models. The link goes to the sign-in page, since there's no public description of what's included."
   }
 ]
