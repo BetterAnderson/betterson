@@ -310,19 +310,30 @@ function trackStickyHead(){
   const root = document.documentElement;
   syncHeadMetrics = () => {
     root.style.setProperty("--stickyhead-h", head.offsetHeight + "px");
-    /* On a phone the top bar wraps to three rows and the whole header would
-       pin 233px of an 812px screen. So the brand and nav rows are allowed to
-       scroll away and only the search and categories stay, via a negative
-       sticky top of exactly that much. The gap between the header's top and
-       the search box doesn't change as the header sticks — both move
-       together — so this holds at any scroll position. Used only below
-       768px; above it the search shares the first row and the offset is
-       nearly nothing. */
-    const search = head.querySelector(".search");
-    const off = search
-      ? Math.max(0, Math.round(search.getBoundingClientRect().top - head.getBoundingClientRect().top))
-      : 0;
-    root.style.setProperty("--head-offset", off + "px");
+    /* On a phone the top bar wraps to three rows — brand, then nav, then
+       search — and pinning all of it would hold a third of the screen. So the
+       header is pulled up by exactly the height of the rows above the first
+       one that has to stay, and that first one is the nav: the links are worth
+       reaching from anywhere, and starting the pinned block with a bare search
+       field reads as a fragment. Only the brand scrolls away.
+
+       Measured to the nav's top rather than a constant, because the gap
+       doesn't change as the header sticks — both move together — so it holds
+       at any scroll position. Used only below 768px; above it the top bar is a
+       single row, the nav sits in it, and the offset is nearly nothing. */
+    const firstPinned = head.querySelector(".topnav") || head.querySelector(".search");
+    let off = 0;
+    if(firstPinned){
+      off = firstPinned.getBoundingClientRect().top - head.getBoundingClientRect().top;
+      /* Stop short by the row gap. Pulling up by the full distance lands the
+         nav hard against the top edge, because the gap that was sitting above
+         it scrolls away with the brand. Read rather than hard-coded so it
+         tracks the stylesheet. */
+      const rows = firstPinned.parentElement;
+      const gap = rows ? parseFloat(getComputedStyle(rows).rowGap) : 0;
+      off -= Number.isFinite(gap) ? gap : 0;
+    }
+    root.style.setProperty("--head-offset", Math.max(0, Math.round(off)) + "px");
   };
   /* Measured from the events that actually change the height rather than from
      a ResizeObserver alone: the tiles arrive with the catalog, so the header
