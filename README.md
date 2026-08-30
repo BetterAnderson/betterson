@@ -39,7 +39,7 @@ docs/PRD.md           Full product spec
 
 ## What's real and what isn't
 
-- **The catalog is real.** 53 verified listings, each with a working source link.
+- **The catalog is real.** 52 verified listings, each with a working source link.
 - **Anderson-only benefits are thin.** Three entries so far. The rest aren't on
   the public web — someone on the team has to pull them from internal channels.
   This is the most valuable missing content.

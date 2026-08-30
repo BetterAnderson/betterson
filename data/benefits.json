@@ -247,25 +247,6 @@
     "n": "LA residents 18+ with a physical LAPL card in good standing. Zip codes 90000–93599; e-cards are not accepted. Two active reservations at a time, bookable up to three months ahead. New passes release at the start of each month."
   },
   {
-    "id": "discover-and-go-la-county",
-    "t": "Discover & Go museum passes",
-    "p": "LA County Library",
-    "c": "Experience",
-    "ic": "museum",
-    "v": "Free passes to Southern California museums and cultural destinations",
-    "e": "LA resident",
-    "d": "Ongoing",
-    "loc": "Off campus",
-    "r": "Reserve through the Discover & Go portal with your county library card and PIN",
-    "u": "https://lacountylibrary.org/discover/",
-    "vd": "2026-08-25",
-    "starts": null,
-    "exp": null,
-    "lat": null,
-    "lng": null,
-    "n": "Adults 18+ with a full-access card. Overlaps with the LAPL program but the museum lists differ — worth checking both if you hold either card."
-  },
-  {
     "id": "ucla-recreation-membership",
     "t": "UCLA Recreation membership",
     "p": "UCLA Recreation",
