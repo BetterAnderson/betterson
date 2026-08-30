@@ -96,6 +96,8 @@ The Anderson colors are the brand and don't change. Everything else — neutrals
 - **Filters live in a left sidebar on desktop**, styled as a table of contents: one row per option with a live count, a colored left bar when active. Below 768px the sidebar is replaced by a Filters button opening a bottom sheet with the same rows.
 - Counts are faceted — they respond to the other groups' selections but not to their own, so choosing "Ongoing" doesn't zero out "Limited".
 - Breakpoints: **1024px** (sidebar + multi-column grid above) and **768px** (bottom sheets, single column below).
+- **Add a benefit widens in three steps** rather than holding one column: phone width, 640px from 768px up, and 880px with the form in two columns from 1024px. A phone-width column on a desktop reads as a page that failed to load the rest of itself. Widening the single column is not the fix — that just makes 700px text inputs; the second column is.
+- **About and For businesses share a type scale** — 37px `h1`, 26px section headings. About's sections run full width and For businesses' sit beside a 236px heading column, but the sizes match. Don't enlarge one page's headings to the point where they rival its `h1`; that flattens the hierarchy rather than adding emphasis.
 - Detail views are a centered modal on desktop and a full-height bottom sheet on phones.
 
 ## The submission form
