@@ -165,6 +165,11 @@ body{
   margin:0 0 10px;color:var(--navy-deep)
 }
 .lede{max-width:62ch;font-size:17px;color:var(--ink-soft);margin:0}
+/* A lede with nothing beside it leaves a third of the row empty at 62ch and
+   breaks into three stubby lines. Widen the measure where the lede stands
+   alone — it's two sentences, not running text, so the tighter measure that
+   body copy needs isn't buying anything here. */
+.hero.wide .lede{max-width:84ch}
 .lede strong{color:var(--navy-deep);font-weight:600}
 
 /* ---------- two-column layout ---------- */
